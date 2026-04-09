@@ -97,3 +97,42 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+# Dependencies
+/node_modules
+
+# Build output
+/dist
+# vite press build output
+/docs/.vitepress/dist
+
+# vite cache directory
+.vite
+
+# Environment variables
+.env
+.env.*
+!.env.production.local
+
+# Local history for editors (e.g., VS Code)
+.history
+
+# Debug log file
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-error.log*
+pnpm-workspace.yaml
+.npmrc
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.user
+*.casolution
+*.csproj.user
+
+# OS-specific files
+.DS_Store
+Thumbs.db
