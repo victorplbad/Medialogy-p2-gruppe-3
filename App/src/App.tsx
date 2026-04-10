@@ -119,14 +119,78 @@ import './App.css'
 // }
 
 // export default App
+
 function App() {
-  return (
-    <div className="bg-gray-900 text-white h-screen flex items-center justify-center">
-      <h1 className="text-3xl font-semibold">
-        Dopamine Free YouTube Shorts
-      </h1>
-    </div>
-  )
+    return (
+        <div>
+            <button className="button" onClick={() => overlayOpen()}>Open sidebar</button>
+            <div />
+
+            <h1>Line 1</h1>
+            There should be a beatiful video about something here
+
+            <div className="overlay show">
+                <div className="topBar">
+                    <button className="button" onClick={() => switchMenu("settings")}>Settings</button>
+                    <button className="button" onClick={() => switchMenu("stats")}>Stats</button>
+                    <button className="button" onClick={() => switchMenu("home")}>Home</button>
+                    <SearchBar></SearchBar>
+                    {/*<button className="button" onClick={() => overlayHide()}>Close overlay</button>*/}
+                </div>
+                <div id="settings" className="menuItem remove">
+                    <h1>PUT SETTINGS HERE</h1>
+                </div>
+                <div id="stats" className="menuItem">
+                    <h1>PUT STATS HERE</h1>
+                    I Stole googles AI search image and you can't stop me(im pretty sure its public since it links to W3.org)
+                    <div/>
+                    Which does explain why *every* web page uses the same image for ai functions
+                </div>
+                <div id="home" className="menuItem remove">
+                    <h1>PUT HOME/SEARCH HERE</h1>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function switchMenu(ID: string) {
+    if (ID === "settings") {
+        document.getElementById("searchbar")?.classList.add("hide");
+    } else {
+        document.getElementById("searchbar")?.classList.remove("hide");
+    }
+    const elements = Array.from(document.getElementsByClassName("menuItem"));
+    for (const e of elements) {
+        e.classList.add("remove");
+    }
+    document.getElementById(ID)?.classList.remove("remove");
+}
+
+function SearchBar() {
+    return (/*I hate this so much... there has to be a better way to have events on text fields*/
+        <div id="searchbar" className="textfield_div">
+            <input type="text" placeholder="Search." onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                    /*Do a Search*/
+                    alert(event.currentTarget.value);
+                    overlayHide();
+                } else {
+                    /*Suggest search terms?*/
+                }
+            }
+            }></input>
+            <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"></rect></g><g><g><path d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path><path d="M15.65 11.58c.18-.5.27-1.03.31-1.58h-2c-.1 1.03-.51 1.93-1.27 2.69-.88.87-1.94 1.31-3.19 1.31C7.03 14 5 12.07 5 9.5 5 7.03 6.93 5 9.5 5c.46 0 .89.08 1.3.2l1.56-1.56C11.5 3.22 10.55 3 9.5 3 5.85 3 3 5.85 3 9.5S5.85 16 9.5 16c.56 0 2.26-.06 3.8-1.3l6.3 6.3 1.4-1.4-6.3-6.3c.4-.5.72-1.08.95-1.72z"></path></g></g></svg>
+        </div>
+    )
+}
+
+function overlayOpen() {
+    document.getElementsByClassName("overlay")[0].classList.add("show");
+}
+
+function overlayHide() {
+    document.getElementsByClassName("overlay")[0].classList.remove("show");
 }
 
 export default App
