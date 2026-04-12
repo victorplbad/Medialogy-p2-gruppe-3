@@ -46,7 +46,65 @@
       scale(1.4);
   }
 
-  .vite {
+ body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: black;
+}
+
+}
+
+/* Video section */
+.video-section {
+  height: 180px;
+  background: gray;
+  position: relative;
+}
+
+.video-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.channel {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.title {
+  font-size: 16px;
+}
+
+/* Divider */
+.divider {
+  height: 4px;
+  width: 60px;
+  background: #bbb;
+  margin: 10px auto;
+  border-radius: 2px;
+}
+
+/* Comments */
+.comments {
+  padding: 10px;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  background: #ccc;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.vite {
     z-index: 0;
     top: 107px;
     height: 26px;
@@ -54,7 +112,7 @@
     transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
       scale(0.8);
   }
-}
+
 
 #center {
   display: flex;

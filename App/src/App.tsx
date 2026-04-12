@@ -119,16 +119,47 @@ import './App.css'
 // }
 
 // export default App
-function App() {
+import React from "react";
+
+type Comment = {
+  id: number;
+  text: string;
+};
+
+const comments: Comment[] = [
+  { id: 1, text: "Comment" },
+  { id: 2, text: "Comment" },
+  { id: 3, text: "Comment" },
+  { id: 4, text: "Comment" },
+  { id: 5, text: "Comment" },
+  { id: 6, text: "Comment" },
+];
+
+const App: React.FC = () => {
   return (
     <div className="container">
-      <h1 className="text-3xl font-semibold">
-        Comment section
-      </h1>
-      <p> Name 1 </p>
-      <p> Name 2 </p>
-    </div>
-  )
-}
+      {/* Video section */}
+      <div className="video-section">
+        <div className="video-overlay">
+          <div className="channel">@ChannelName</div>
+          <div className="title">VideoTitle #hashtag</div>
+        </div>
+      </div>
 
-export default App
+      {/* Divider */}
+      <div className="divider" />
+
+      {/* Comments */}
+      <div className="comments">
+        {comments.map((comment) => (
+          <div key={comment.id} className="comment">
+            <div className="avatar" />
+            <span>{comment.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default App;
