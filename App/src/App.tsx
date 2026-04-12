@@ -117,7 +117,19 @@ import './App.css'
 //     </>
 //   )
 // }
-
+/*function App() {
+  return (
+    <div className="container">
+      <h1 className="text-3xl font-semibold">
+        Comment section
+      </h1>
+      <p> Name 1 </p>
+      <p> Name 2 </p>
+      <p> Name 3 </p>
+    </div>
+  )
+}
+  */
 // export default App
 import React from "react";
 
