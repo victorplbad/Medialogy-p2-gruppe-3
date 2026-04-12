@@ -53,6 +53,10 @@
 }
 
 }
+.container {
+  width: 300px;
+  margin: auto;
+}
 
 /* Video section */
 .video-section {
