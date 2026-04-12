@@ -121,10 +121,12 @@ import './App.css'
 // export default App
 function App() {
   return (
-    <div className="bg-gray-900 text-white h-screen flex items-center justify-center">
+    <div className="container">
       <h1 className="text-3xl font-semibold">
-        Dopamine Free YouTube Shorts
+        Comment section
       </h1>
+      <p> Name 1 </p>
+      <p> Name 2 </p>
     </div>
   )
 }

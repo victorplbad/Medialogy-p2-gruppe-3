@@ -103,6 +103,11 @@
     border-bottom: 1px solid var(--border);
   }
 }
+.container {
+  background-color: gray;
+  height: 100vh;
+  color: rgb(31, 16, 16);
+  } 
 
 #next-steps ul {
   list-style: none;
