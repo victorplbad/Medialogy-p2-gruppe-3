@@ -75,9 +75,6 @@ function App() {
 
         {/* PAGE 2 */}
         <div className="page video-page">
-          <button className="back-btn" onClick={() => setPage(0)}>
-            Back
-          </button>
           <h1>Video Page (placeholder)</h1>
         </div>
       </div>
