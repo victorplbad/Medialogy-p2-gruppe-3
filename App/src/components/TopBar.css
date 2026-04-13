@@ -1,11 +1,23 @@
 /* src/components/TopBar.css */
 .topbar {
+  /*ensures proper layering*/
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 52px;
+  padding: 0 16px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #555555;
-  padding: 0 16px;
-  height: 52px;
+
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.6);
+  /* background-color: #555555; */
+  /*ensures proper layering*/
+  z-index: 9999;
 }
 
 .topbar__icon-btn {

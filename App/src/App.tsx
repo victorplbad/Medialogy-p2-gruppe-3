@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import TopBar from "./components/TopBar";
 import "./App.css";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
   // PC control - ScrollWheel
   const handleWheel = (e: React.WheelEvent) => {
     if (page === 1 && e.deltaY < -40) {
-      goToPage(0); // scroll up → go back
+      goToPage(0); // scroll up to go back
     }
   };
 
@@ -37,19 +38,27 @@ function App() {
     const deltaY = touchStartY.current - e.changedTouches[0].clientY;
 
     if (page === 1 && deltaY < -50) {
-      goToPage(0); // swipe down → go back
+      goToPage(0); // swipe down to go back
     }
 
     touchStartY.current = null;
   };
 
+  const styles = {
+    container: {
+      backgroundColor:"#8C8C8C",
+    },
+  }as const;
+
   return (
-    <div 
+    <div
+      style={styles.container} 
       className="app"
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      <TopBar/>
       <div
         className="slider"
         style={{ transform: `translateY(-${page * 100}vh)` }}
