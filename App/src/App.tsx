@@ -1,11 +1,14 @@
 import { useState } from 'react';
+
 import './App.css';
 import TopBar from "./components/TopBar";
+
+
 
 function App() {
   
 
-  
+
   const [height, setHeight] = useState(0); // starting range
 
   
@@ -15,17 +18,19 @@ function App() {
     setHeight(event.target.value);
   };
 
+
+
   return (
     
    
     
     <div className='SettingsPage'>
     
-    
-    
 
-    <TopBar/> {/* topbare we made  */}
+  <TopBar/> {/* topbare we made  */}
 
+    <div style={styles.container}> {/* needed for style baground */} 
+      
       {/* Custom range slider */}
       <h4>Grey scale: {height}%</h4> {/* name of slider */}
       
@@ -58,10 +63,16 @@ function App() {
         thisTestMail@mail.com <button className="button buttonRed">logout</button>
       </p>
     </div>
+    </div> // needed for style baground
   );
 }
 
 
-
+const styles = {
+    container: {
+    backgroundColor: "#8C8C8C",
+  },
+} as const;
 
 export default App;
+
