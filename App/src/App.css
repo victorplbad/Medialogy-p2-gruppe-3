@@ -56,6 +56,7 @@
   }
 }
 
+
 #center {
   display: flex;
   flex-direction: column;
@@ -182,3 +183,25 @@
     border-right-color: var(--border);
   }
 }
+
+
+.highlight-button {
+  background-color: #0ea5e9; /* sky-500 */
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.highlight-button:hover {
+  background-color: #0369a1; /* sky-700 */
+}
+
+.highlight-button:active {
+  transform: scale(0.95);
+}
+
+
+
