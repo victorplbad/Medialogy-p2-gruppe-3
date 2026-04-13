@@ -123,9 +123,9 @@ import React, { useState } from "react";
 import { ThumbsUp, MessageCircle, ThumbsDown } from "lucide-react";
 
 type BottomPanelProps = {
-  onLike?: () => void;
-  onComment?: () => void;
-  onDislike?: () => void;
+  onLike?: () => void;     // Funktion der kaldes når man liker
+  onComment?: () => void;  // Funktion der kaldes når man trykker på kommentar-knappen
+  onDislike?: () => void;  // Funktion der kaldes når man disliker
 };
 
 const BottomPanel: React.FC<BottomPanelProps> = ({
@@ -133,97 +133,84 @@ const BottomPanel: React.FC<BottomPanelProps> = ({
   onComment,
   onDislike,
 }) => {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
 
+  // 🔘 Om brugeren har trykket LIKE
   const [liked, setLiked] = useState(false);
+
+  // 👎 Om brugeren har trykket DISLIKE
   const [disliked, setDisliked] = useState(false);
 
+  // 🎞 Bruges til at lave en lille "pop" animation når man liker
   const [animateLike, setAnimateLike] = useState(false);
+
+  // 🎞 Bruges til at lave en lille "pop" animation når man disliker
   const [animateDislike, setAnimateDislike] = useState(false);
 
+  // 👍 Når man trykker LIKE
   const handleLike = () => {
-    if (liked) {
-      setLikes((prev) => prev - 1);
-      setLiked(false);
-    } else {
-      setLikes((prev) => prev + 1);
-      setLiked(true);
+    setLiked(!liked); // Skift liked fra true → false eller omvendt
 
-      // hvis man havde disliked før → fjern den
-      if (disliked) {
-        setDislikes((prev) => prev - 1);
-        setDisliked(false);
-      }
-    }
+    if (disliked) setDisliked(false); // Hvis man havde disliked før → fjern dislike
 
+    // Start animation
     setAnimateLike(true);
     setTimeout(() => setAnimateLike(false), 200);
 
+    // Kald ekstern callback hvis den findes
     onLike?.();
   };
 
+  // 👎 Når man trykker DISLIKE
   const handleDislike = () => {
-    if (disliked) {
-      setDislikes((prev) => prev - 1);
-      setDisliked(false);
-    } else {
-      setDislikes((prev) => prev + 1);
-      setDisliked(true);
+    setDisliked(!disliked); // Skift disliked fra true → false eller omvendt
 
-      // hvis man havde liked før → fjern den
-      if (liked) {
-        setLikes((prev) => prev - 1);
-        setLiked(false);
-      }
-    }
+    if (liked) setLiked(false); // Hvis man havde liket før → fjern like
 
+    // Start animation
     setAnimateDislike(true);
     setTimeout(() => setAnimateDislike(false), 200);
 
+    // Kald ekstern callback hvis den findes
     onDislike?.();
   };
 
   return (
-    <div style={styles.wrapper}>
-      <div style={styles.container}>
-        
-        {/* 👍 LIKE */}
+    <div style={styles.wrapper}> {/* Hele bundpanelet */}
+      <div style={styles.container}> {/* Boksen med de tre knapper */}
+
+        {/* 👍 LIKE KNAP */}
         <button style={styles.button} onClick={handleLike}>
           <div
             style={{
               ...styles.iconWrapper,
-              transform: animateLike ? "scale(1.3)" : "scale(1)",
+              transform: animateLike ? "scale(1.3)" : "scale(1)", // Animation hvis aktiv
             }}
           >
             <ThumbsUp
               size={26}
-              color={liked ? "#4ade80" : "#bfbfbf"}
+              color={liked ? "#4ade80" : "#1E1E1E"} // Grøn hvis liked
             />
           </div>
-          <span style={styles.text}>{likes}</span>
         </button>
 
-        {/* 💬 COMMENT */}
+        {/* 💬 COMMENT KNAP */}
         <button style={styles.button} onClick={onComment}>
-          <MessageCircle size={26} />
-          <span style={styles.text}>0</span>
+          <MessageCircle size={26} /> {/* Kun ikon, ingen tal */}
         </button>
 
-        {/* 👎 DISLIKE */}
+        {/* 👎 DISLIKE KNAP */}
         <button style={styles.button} onClick={handleDislike}>
           <div
             style={{
               ...styles.iconWrapper,
-              transform: animateDislike ? "scale(1.3)" : "scale(1)",
+              transform: animateDislike ? "scale(1.3)" : "scale(1)", // Animation hvis aktiv
             }}
           >
             <ThumbsDown
               size={26}
-              color={disliked ? "#f87171" : "#bfbfbf"} // rød når disliked
+              color={disliked ? "#f87171" : "#1E1E1E"} // Rød hvis disliked
             />
           </div>
-          <span style={styles.text}>{dislikes}</span>
         </button>
 
       </div>
@@ -232,44 +219,40 @@ const BottomPanel: React.FC<BottomPanelProps> = ({
 };
 
 export default BottomPanel;
+
+// 🎨 Styling til hele bundpanelet
 const styles: { [key: string]: React.CSSProperties } = {
   wrapper: {
-    position: "fixed",
+    position: "fixed", // Panelet sidder fast i bunden
     bottom: 0,
     width: "100%",
     display: "flex",
     justifyContent: "center",
     padding: "10px 0",
-    background: "linear-gradient(to top, #1f1f1f, transparent)",
   },
   container: {
     width: "90%",
     maxWidth: "500px",
     height: "65px",
-    backgroundColor: "#2b2b2b",
+    backgroundColor: "#555555",
     borderRadius: "18px",
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-around", // Fordeler knapperne
     alignItems: "center",
-    boxShadow: "0px -2px 10px rgba(0,0,0,0.4)",
+    boxShadow: "0px -2px 10px rgba(0,0,0,0.4)", // Let skygge
   },
   button: {
     background: "none",
     border: "none",
     cursor: "pointer",
-    color: "#bfbfbf",
+    color: "#1E1E1E",
     display: "flex",
-    flexDirection: "column", // 👈 ikon + tekst under
+    flexDirection: "column", // Ikon centreret
     alignItems: "center",
     justifyContent: "center",
     gap: "4px",
   },
   iconWrapper: {
-    transition: "transform 0.2s ease",
-  },
-  text: {
-    fontSize: "12px",
-    color: "#ccc",
+    transition: "transform 0.2s ease", // Smooth animation
   },
 };
-
