@@ -15,14 +15,17 @@ function App() {
   };
 
   return (
-    <div className='container'>
-      <h2>well-come to bungo</h2>
+    
+   
+    
+    <div className='SettingsPage'>
 
-      {/* A range slider with default appearance */}
-     
+
+    topbare missing
 
       {/* Custom range slider */}
-      <h4>Grey scale: {height}px</h4> {/* name of slider */}
+      <h4>Grey scale: {height}%</h4> {/* name of slider */}
+      
       <input
         type='range'
         onChange={changeHeight} // the value we change thats stores the current nr 
@@ -33,9 +36,29 @@ function App() {
         className='custom-slider'
       ></input>
 
-      
+      <p className="text-4xl font-bold mb-4 text-white">
+        thisTestMail@mail.com
+      </p>
+
+      <p className="text-4xl font-bold mb-4 text-white">
+        password : ****
+      </p>
+
+      <p className="text-4xl font-bold mb-4 text-white">
+        
+        <button className="button buttonGreen">login</button>
+
+      </p>
+
+      <p className="text-4xl font-bold mb-4 text-white">
+        (hiden)
+        thisTestMail@mail.com <button className="button buttonRed">logout</button>
+      </p>
     </div>
   );
 }
+
+
+
 
 export default App;
