@@ -119,14 +119,157 @@ import './App.css'
 // }
 
 // export default App
-function App() {
-  return (
-    <div className="bg-gray-900 text-white h-screen flex items-center justify-center">
-      <h1 className="text-3xl font-semibold">
-        Dopamine Free YouTube Shorts
-      </h1>
-    </div>
-  )
-}
+import React, { useState } from "react";
+import { ThumbsUp, MessageCircle, ThumbsDown } from "lucide-react";
 
-export default App
+type BottomPanelProps = {
+  onLike?: () => void;
+  onComment?: () => void;
+  onDislike?: () => void;
+};
+
+const BottomPanel: React.FC<BottomPanelProps> = ({
+  onLike,
+  onComment,
+  onDislike,
+}) => {
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
+  const [animateLike, setAnimateLike] = useState(false);
+  const [animateDislike, setAnimateDislike] = useState(false);
+
+  const handleLike = () => {
+    if (liked) {
+      setLikes((prev) => prev - 1);
+      setLiked(false);
+    } else {
+      setLikes((prev) => prev + 1);
+      setLiked(true);
+
+      // hvis man havde disliked før → fjern den
+      if (disliked) {
+        setDislikes((prev) => prev - 1);
+        setDisliked(false);
+      }
+    }
+
+    setAnimateLike(true);
+    setTimeout(() => setAnimateLike(false), 200);
+
+    onLike?.();
+  };
+
+  const handleDislike = () => {
+    if (disliked) {
+      setDislikes((prev) => prev - 1);
+      setDisliked(false);
+    } else {
+      setDislikes((prev) => prev + 1);
+      setDisliked(true);
+
+      // hvis man havde liked før → fjern den
+      if (liked) {
+        setLikes((prev) => prev - 1);
+        setLiked(false);
+      }
+    }
+
+    setAnimateDislike(true);
+    setTimeout(() => setAnimateDislike(false), 200);
+
+    onDislike?.();
+  };
+
+  return (
+    <div style={styles.wrapper}>
+      <div style={styles.container}>
+        
+        {/* 👍 LIKE */}
+        <button style={styles.button} onClick={handleLike}>
+          <div
+            style={{
+              ...styles.iconWrapper,
+              transform: animateLike ? "scale(1.3)" : "scale(1)",
+            }}
+          >
+            <ThumbsUp
+              size={26}
+              color={liked ? "#4ade80" : "#bfbfbf"}
+            />
+          </div>
+          <span style={styles.text}>{likes}</span>
+        </button>
+
+        {/* 💬 COMMENT */}
+        <button style={styles.button} onClick={onComment}>
+          <MessageCircle size={26} />
+          <span style={styles.text}>0</span>
+        </button>
+
+        {/* 👎 DISLIKE */}
+        <button style={styles.button} onClick={handleDislike}>
+          <div
+            style={{
+              ...styles.iconWrapper,
+              transform: animateDislike ? "scale(1.3)" : "scale(1)",
+            }}
+          >
+            <ThumbsDown
+              size={26}
+              color={disliked ? "#f87171" : "#bfbfbf"} // rød når disliked
+            />
+          </div>
+          <span style={styles.text}>{dislikes}</span>
+        </button>
+
+      </div>
+    </div>
+  );
+};
+
+export default BottomPanel;
+const styles: { [key: string]: React.CSSProperties } = {
+  wrapper: {
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    padding: "10px 0",
+    background: "linear-gradient(to top, #1f1f1f, transparent)",
+  },
+  container: {
+    width: "90%",
+    maxWidth: "500px",
+    height: "65px",
+    backgroundColor: "#2b2b2b",
+    borderRadius: "18px",
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    boxShadow: "0px -2px 10px rgba(0,0,0,0.4)",
+  },
+  button: {
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    color: "#bfbfbf",
+    display: "flex",
+    flexDirection: "column", // 👈 ikon + tekst under
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "4px",
+  },
+  iconWrapper: {
+    transition: "transform 0.2s ease",
+  },
+  text: {
+    fontSize: "12px",
+    color: "#ccc",
+  },
+};
+
