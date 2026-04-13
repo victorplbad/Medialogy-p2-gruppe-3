@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import TopBar from "./components/TopBar";
 
 function App() {
   
@@ -19,9 +20,11 @@ function App() {
    
     
     <div className='SettingsPage'>
+    
+    
+    
 
-
-    topbare missing
+    <TopBar/> {/* topbare we made  */}
 
       {/* Custom range slider */}
       <h4>Grey scale: {height}%</h4> {/* name of slider */}
