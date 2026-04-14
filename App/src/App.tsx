@@ -199,7 +199,7 @@ function TopBar() {
             <button className="button" onClick={() => switchMenu("settings")}>Settings</button>
             <button className="button" onClick={() => switchMenu("stats")}>Stats</button>
             <button className="button" onClick={() => switchMenu("home")}>Home</button>
-            <SearchField></SearchField>
+            <SearchField/>
             <button className="button" onClick={() => overlayHide()}>Close overlay</button>
         </div>
     )
