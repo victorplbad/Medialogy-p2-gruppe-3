@@ -212,7 +212,6 @@ function SearchField() {
                 if (event.key === "Enter") {
                     /*Do a Search*/
                     alert(event.currentTarget.value);
-                    overlayHide();
                 } else {
                     /*Suggest search terms?*/
                 }
@@ -231,12 +230,12 @@ function overlayToggle() {
 
 function overlayShow() {
     document.getElementsByClassName("overlay")[0].classList.add("show");
-    document.getElementsByClassName("weirdButton")[0].innerHTML = "Close";
+    document.getElementsByClassName("weirdButton")[0].innerHTML = "Close overlay";
 }
 
 function overlayHide() {
     document.getElementsByClassName("overlay")[0].classList.remove("show");
-    document.getElementsByClassName("weirdButton")[0].innerHTML = "Open";
+    document.getElementsByClassName("weirdButton")[0].innerHTML = "Open overlay";
 }
 
 export default App
