@@ -183,7 +183,14 @@
   }
 }
 
-.button {
+.App {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    touch-action: pan-x;
+}
+
+.button, .weirdButton{
     width: 200px;
     height: 40px;
     margin: 4px;
@@ -191,6 +198,15 @@
     border-radius: 12px;
     box-shadow: inset 2px 2px 2px #cccccc;
     padding: 0px 6px;
+}
+
+.weirdButton {
+    position: fixed;
+    z-index: 100;
+    top: 45vh;
+    left: -20px;
+    width: 100px;
+    height: 8vh;
 }
 
 .textfield_div {
@@ -201,7 +217,23 @@
     margin: 4px;
 }
 
-    .textfield_div input {
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -100vw;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 99;
+    transition: left 0.5s;
+}
+
+    .overlay.show {
+        left: 0vw
+    }
+
+.textfield_div input {
         background-color: #fff;
         display: block;
 
@@ -218,22 +250,6 @@
         top: 2px;
         right: 6px;
         height: 90%
-    }
-
-.overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: -100vw;
-    width: 100vw;
-    height: 100vh;
-    background-color: white;
-    z-index: 99;
-    transition: left 0.5s;
-}
-
-    .overlay.show {
-        left: 0vw
     }
 
 html, body, .container{

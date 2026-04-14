@@ -2,6 +2,7 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
+import { useRef } from 'react';
 import './App.css'
 
 // function App() {
@@ -121,10 +122,41 @@ import './App.css'
 // export default App
 
 function App() {
+    const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
+    const touchStart = useRef<number | null>(null);
+    // Touch start
+    const TouchStart = (e: React.TouchEvent) => {
+        touchStart.current = e.touches[0].clientX;
+    };
+
+    // Touch End
+    const TouchEnd = (e: React.TouchEvent) => {
+        if (touchStart.current === null) return;
+
+        const delta = touchStart.current - e.changedTouches[0].clientX;
+
+        if (delta > 50) {
+            overlayHide();
+        }
+        if (delta < -50) {
+            overlayShow();
+        }
+        touchStart.current = null;
+    };
+
+    document.addEventListener("scroll", (event) => {
+        const e = event as WheelEvent;
+        if (e.deltaX > 5) overlayShow();
+        if (e.deltaX < -5) overlayHide();
+    });
+
     return (
-        <div>
-            <button className="button" onClick={() => overlayOpen()}>Open sidebar</button>
-            <div />
+        <div
+            className="App"
+            onTouchStart={TouchStart}
+            onTouchEnd={TouchEnd}
+        >
+            {!hasTouch && (<button className="weirdButton" onClick={() => overlayToggle()}>Close overlay</button>)}
 
             <h1>Line 1</h1>
             There should be a beatiful video about something here
@@ -168,7 +200,7 @@ function TopBar() {
             <button className="button" onClick={() => switchMenu("stats")}>Stats</button>
             <button className="button" onClick={() => switchMenu("home")}>Home</button>
             <SearchField></SearchField>
-            {/*<button className="button" onClick={() => overlayHide()}>Close overlay</button>*/}
+            <button className="button" onClick={() => overlayHide()}>Close overlay</button>
         </div>
     )
 }
@@ -191,12 +223,20 @@ function SearchField() {
     )
 }
 
-function overlayOpen() {
+function overlayToggle() {
+    const overlay = document.getElementsByClassName("overlay")[0];
+    if (overlay.classList.contains("show")) overlayHide();
+    else overlayShow();
+}
+
+function overlayShow() {
     document.getElementsByClassName("overlay")[0].classList.add("show");
+    document.getElementsByClassName("weirdButton")[0].innerHTML = "Close";
 }
 
 function overlayHide() {
     document.getElementsByClassName("overlay")[0].classList.remove("show");
+    document.getElementsByClassName("weirdButton")[0].innerHTML = "Open";
 }
 
 export default App
