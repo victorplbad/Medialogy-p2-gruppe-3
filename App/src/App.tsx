@@ -130,13 +130,7 @@ function App() {
             There should be a beatiful video about something here
 
             <div className="overlay show">
-                <div className="topBar">
-                    <button className="button" onClick={() => switchMenu("settings")}>Settings</button>
-                    <button className="button" onClick={() => switchMenu("stats")}>Stats</button>
-                    <button className="button" onClick={() => switchMenu("home")}>Home</button>
-                    <SearchBar></SearchBar>
-                    {/*<button className="button" onClick={() => overlayHide()}>Close overlay</button>*/}
-                </div>
+                <TopBar/>
                 <div id="settings" className="menuItem remove">
                     <h1>PUT SETTINGS HERE</h1>
                 </div>
@@ -167,7 +161,19 @@ function switchMenu(ID: string) {
     document.getElementById(ID)?.classList.remove("remove");
 }
 
-function SearchBar() {
+function TopBar() {
+    return (
+        <div className="topBar">
+            <button className="button" onClick={() => switchMenu("settings")}>Settings</button>
+            <button className="button" onClick={() => switchMenu("stats")}>Stats</button>
+            <button className="button" onClick={() => switchMenu("home")}>Home</button>
+            <SearchField></SearchField>
+            {/*<button className="button" onClick={() => overlayHide()}>Close overlay</button>*/}
+        </div>
+    )
+}
+
+function SearchField() {
     return (/*I hate this so much... there has to be a better way to have events on text fields*/
         <div id="searchbar" className="textfield_div">
             <input type="text" placeholder="Search." onKeyDown={(event) => {
