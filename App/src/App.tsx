@@ -188,7 +188,7 @@ const BottomPanel: React.FC<BottomPanelProps> = ({
           >
             <ThumbsUp
               size={26}
-              color={liked ? "#4ade80" : "#1E1E1E"} // Grøn hvis liked
+              color={liked ? "#ebf2ee" : "#1E1E1E"} // Grøn hvis liked
             />
           </div>
         </button>
@@ -208,7 +208,7 @@ const BottomPanel: React.FC<BottomPanelProps> = ({
           >
             <ThumbsDown
               size={26}
-              color={disliked ? "#f87171" : "#1E1E1E"} // Rød hvis disliked
+              color={disliked ? "#f7f2f2" : "#1E1E1E"} // Rød hvis disliked
             />
           </div>
         </button>
