@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import './App.css';
+import './PageSetting.css';
 import TopBar from "./components/TopBar";
 
 
 
-function App() {
+function PageSetting() {
   
 
 
@@ -74,5 +74,5 @@ const styles = {
   },
 } as const;
 
-export default App;
+export default PageSetting;
 
