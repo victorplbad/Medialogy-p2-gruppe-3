@@ -14,6 +14,7 @@ const TopBar: React.FC = () => {
             </button>
 
             {/*<button className="button" aria-label="Video liste" onClick={() => switchMenu("search_results")}>*/}
+            {/*Yarr!*/}
             {/*</button>*/}
 
             {/* Søgefelt — højre */}
