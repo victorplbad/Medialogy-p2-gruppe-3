@@ -1,12 +1,58 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import TopBar from "./components/TopBar";
+import type {Video} from "./Video"
 import "./App.css";
+
+const API_KEY = "AIzaSyDXTNGsNnpiTPdUpQNnL3ZzPyeK9YMBMqQ";
+// const API_KEY = import.meta.env.keyname;
+
+
+
+//example video ID:
+const videoIds = [
+    "WnRhXpJCO28",
+    "-chf_4a07Rg",
+];
+
+function formatDuration(iso: string) {
+    const match = iso.match(/PT(\d+M)?(\d+S)?/);
+    const minutes = match?.[1]?.replace("M","") || "0";
+    const seconds = match?.[2]?.replace("S","") || "00";
+    return `${minutes}:${seconds.padStart(2, "0")}`;
+}
+
+
+
+
 
 function App() {
   const [page, setPage] = useState(0);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [videos, setVideos] = useState<Video[]>([]);
 
   const touchStartY = useRef<number | null>(null); 
   const isAnimating = useRef(false);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+        const res = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoIds.join(",")}&key=${API_KEY}`
+        );
+
+        const data = await res.json();
+
+        const parsed: Video[] = data.items.map((item: any) => ({
+            id: item.id,
+            title: item.snippet.title,
+            thumbnail: item.snippet.thumbnails.high.url,
+            duration: formatDuration(item.contentDetails.duration),
+        }));
+
+        setVideos(parsed);
+    };
+
+    fetchVideos();
+  }, []);
 
   const goToPage = (target: number) => {
     if (isAnimating.current) return;
@@ -66,7 +112,30 @@ function App() {
         {/* PAGE 1 */}
         <div className="page choice-page">
           <div className="grid">
-            {[...Array(6)].map((_, i) => (
+            {videos.length === 0 ? (
+                <p className="loading">Loading...</p>
+            ) : (
+              videos.map((video) => (
+                  <div
+                    key={video.id}
+                    className="portrait"
+                    onPointerUp={() => {
+                      setSelectedVideo(video.id);
+                      setTimeout(() => setPage(1), 80);
+                    }}
+                  >
+                    <img src={video.thumbnail} />
+  
+                    <div className="ThumbOverlay">
+                      <span className="title">{video.title}</span>
+                      <span className="duration">{video.duration}</span>
+                    </div>
+                  </div>
+                ))
+            )}
+
+
+            {/* {[...Array(6)].map((_, i) => (
               <div
                 key={i}
                 className="portrait"
@@ -78,13 +147,21 @@ function App() {
               >
                 <span>Thumbnail {i + 1}</span>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
 
         {/* PAGE 2 */}
         <div className="page video-page">
-          <h1>Video Page (placeholder)</h1>
+          {selectedVideo && (
+            <div className="video-container">
+                <iframe
+                    src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1`}
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                />
+            </div>
+          )}
         </div>
       </div>
     </div>
