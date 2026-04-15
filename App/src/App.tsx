@@ -12,25 +12,31 @@ import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
-    const touchStart = useRef<number | null>(null);
+    const touchStartX = useRef<number | null>(null);
+    const touchStartY = useRef<number | null>(null);
+
     // Touch start
     const TouchStart = (e: React.TouchEvent) => {
-        touchStart.current = e.touches[0].clientX;
+        touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
     };
 
     // Touch End
     const TouchEnd = (e: React.TouchEvent) => {
-        if (touchStart.current === null) return;
+        if (touchStartX.current === null || touchStartY.current === null) return;
 
-        const delta = touchStart.current - e.changedTouches[0].clientX;
+        const deltaX = touchStartX.current - e.changedTouches[0].clientX;
+        const deltaY = touchStartY.current - e.changedTouches[0].clientY;
 
-        if (delta > 50) {
+        if (deltaX > 50) {
             overlayHide();
         }
-        if (delta < -50) {
+        if (deltaX < -50) {
             overlayShow();
         }
-        touchStart.current = null;
+
+        touchStartX.current = null;
+        touchStartY.current = null;
     };
 
     document.addEventListener("scroll", (event) => {
@@ -48,7 +54,14 @@ function App() {
             {!hasTouch && (<button className="weirdButton" onClick={() => overlayToggle()}>Close overlay</button>)}
 
             <h1>Line 1</h1>
-            There should be a beatiful video about something here
+            This should be the biggest and most beautiful video there ever was
+            {/*VideoPLayer followed by videolist */}
+            <VideoList />
+
+            {/*
+                Above here should be the video player and new video selection
+                Below here should be the menu/overlay functions
+            */}
 
             <div className="overlay show">
                 <TopBar />
@@ -57,14 +70,13 @@ function App() {
                 </div>
                 <div id="stats" className="menuItem">
                       
-                    <div/>
-                      <p>Du har spildt timer på shorts denne uge</p>
-                      <p>Du kunne vist have været mere produktiv</p> 
+                    <div />
+                    <p>Du har spildt timer på shorts denne uge</p>
+                    <p>Du kunne vist have været mere produktiv</p>
 
                 </div>
-                <div id="video_list" className="menuItem remove">
-                    {/*VideoPLayer followed by videolist */}
-                    <VideoList />
+                <div id="search_results" className="menuItem remove">
+                    <p>Søge resultater lige her</p>
                 </div>
             </div>
         </div>
