@@ -1,14 +1,15 @@
 // src/components/TopBar.tsx
 import React, { useState } from "react";
 import "./TopBar.css";
+import switchMenu from "../GlobalFunctions.tsx";
 
 const TopBar: React.FC = () => {
   const [query, setQuery] = useState("");
 
   return (
     <header className="topbar">
-      {/* Gear ikon — venstre */}
-      <button className="topbar__icon-btn" aria-label="Indstillinger">
+          {/* Gear ikon — venstre */}
+          <button className="topbar__icon-btn" aria-label="Indstillinger" onClick={() => switchMenu("settings")}>
         <GearIcon />
       </button>
 

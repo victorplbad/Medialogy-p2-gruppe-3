@@ -1,9 +1,5 @@
 import { useState } from 'react';
-
 import './PageSettings.css';
-import TopBar from "./components/TopBar";
-
-
 
 function PageSettings() {
   
@@ -17,8 +13,6 @@ function PageSettings() {
   const changeHeight = (event) => {
     setHeight(event.target.value);
   };
-
-
 
   return (
     <div className='SettingsPage'>
