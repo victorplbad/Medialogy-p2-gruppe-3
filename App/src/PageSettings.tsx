@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import './App.css';
+import './PageSettings.css';
 import TopBar from "./components/TopBar";
 
 
 
-function App() {
+function PageSettings() {
   
 
 
@@ -68,5 +68,5 @@ const styles = {
   },
 } as const;
 
-export default App;
+export default PageSettings;
 
