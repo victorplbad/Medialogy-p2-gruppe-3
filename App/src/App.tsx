@@ -30,29 +30,24 @@ function App() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
 
+  const [loading, setLoading] = useState(true);
+
   const touchStartY = useRef<number | null>(null); 
   const isAnimating = useRef(false);
 
   useEffect(() => {
-    const fetchVideos = async () => {
-        const res = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoIds.join(",")}&key=${API_KEY}`
-        );
+    const fetchRandomVideos = async () => {
+        try {
+            setLoading(true);
 
-        const data = await res.json();
-
-        const parsed: Video[] = data.items.map((item: any) => ({
-            id: item.id,
-            title: item.snippet.title,
-            thumbnail: item.snippet.thumbnails.high.url,
-            duration: formatDuration(item.contentDetails.duration),
-        }));
-
-        setVideos(parsed);
-    };
-
-    fetchVideos();
+            //find videos
+            const searchRes = await fetch(
+                `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=20&q=gaming%20shorts&key=${API_KEY}`
+            )
+        }
+    }
   }, []);
+
 
   const goToPage = (target: number) => {
     if (isAnimating.current) return;
@@ -112,7 +107,7 @@ function App() {
         {/* PAGE 1 */}
         <div className="page choice-page">
           <div className="grid">
-            {videos.length === 0 ? (
+            {loading? (
                 <p className="loading">Loading...</p>
             ) : (
               videos.map((video) => (
