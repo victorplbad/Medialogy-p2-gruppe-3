@@ -5,6 +5,7 @@
 import { useRef } from 'react';
 import './App.css'
 import TopBar from "./components/TopBar";
+import Comments from "./Comments";
 import PageSettings from "./PageSettings";
 
 function App() {
@@ -46,11 +47,12 @@ function App() {
 
             <h1>Line 1</h1>
             There should be a beatiful video about something here
+            <Comments />
 
             <div className="overlay show">
                 <TopBar />
                 <div id="settings" className="menuItem remove">
-                    <PageSettings/>
+                    <PageSettings />
                 </div>
                 <div id="stats" className="menuItem">
                     <h1>PUT STATS HERE</h1>
