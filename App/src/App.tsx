@@ -7,6 +7,7 @@ import './App.css'
 import TopBar from "./components/TopBar";
 import Comments from "./Comments";
 import PageSettings from "./PageSettings";
+import BottomPanel from "./BottomPanel";
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
@@ -48,6 +49,7 @@ function App() {
             <h1>Line 1</h1>
             There should be a beatiful video about something here
             <Comments />
+            <BottomPanel />
 
             <div className="overlay show">
                 <TopBar />
@@ -63,7 +65,7 @@ function App() {
                 <div id="home" className="menuItem remove">
                     <h1>PUT HOME/SEARCH HERE</h1>
                 </div>
-            </div>
+            BottomPanel</div>
         </div>
     )
 }
