@@ -4,7 +4,7 @@
 // import heroImg from './assets/hero.png'
 import { useRef } from 'react';
 
-import './App.css'
+import './giga.css'
 
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";

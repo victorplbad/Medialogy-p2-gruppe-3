@@ -2,7 +2,7 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
-import './Comments.css'
+import './giga.css'
 import React from "react"; // React gør det muligt at bruge React-komponenter
 
 type Comment = {

@@ -3,7 +3,7 @@ import TopBar from "./components/TopBar";
 import Comments from "./Comments";
 import BottomPanel from "./BottomPanel";
 
-import "./VideoList.css";
+import "./giga.css";
 
 function VideoList() {
     const [page, setPage] = useState(0);
@@ -56,7 +56,7 @@ function VideoList() {
     return (
         <div
             style={styles.container}
-            className="app"
+            className="App"
             onWheel={handleWheel}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
