@@ -57,10 +57,11 @@ function App() {
                     <PageSettings />
                 </div>
                 <div id="stats" className="menuItem">
-                    <h1>PUT STATS HERE</h1>
-                    I Stole googles AI search image and you can't stop me(im pretty sure its public since it links to W3.org)
+                      
                     <div/>
-                    Which does explain why *every* web page uses the same image for ai functions
+                      <p>Du har spildt timer på shorts denne uge</p>
+                      <p>Du kunne vist have været mere produktiv</p> 
+
                 </div>
                 <div id="video_list" className="menuItem remove">
                     {/*VideoPLayer followed by videolist */}
