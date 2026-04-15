@@ -6,7 +6,6 @@ import { useRef } from 'react';
 import './App.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
-//import PageSetting from './PageSettings.tsx'
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
