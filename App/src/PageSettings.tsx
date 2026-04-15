@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './PageSettings.css';
+import './giga.css';
 
 function PageSettings() {
   
@@ -42,7 +42,7 @@ function PageSettings() {
 
       <p className="text-4xl font-bold mb-4 text-white">
         
-        <button className="button buttonGreen">login</button>
+                  <button className="button buttonGreen">logout</button>
 
       </p>
 
