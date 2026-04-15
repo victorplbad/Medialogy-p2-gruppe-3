@@ -10,8 +10,11 @@ const TopBar: React.FC = () => {
     <header className="topbar">
           {/* Gear ikon — venstre */}
           <button className="topbar__icon-btn" aria-label="Indstillinger" onClick={() => switchMenu("settings")}>
-        <GearIcon />
-      </button>
+              <GearIcon />
+          </button>
+
+          <button className="button" aria-label="Video liste" onClick={() => switchMenu("video_list")}>
+          </button>
 
       {/* Søgefelt — højre */}
       <div className="topbar__search">
