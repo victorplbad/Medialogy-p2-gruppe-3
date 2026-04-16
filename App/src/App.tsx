@@ -9,7 +9,7 @@ import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
 import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
-import API_KEY from "./assets/API_KEY";
+import API_KEY from "./API_KEY";
 
 import type { Video } from "./VideoType";
 
