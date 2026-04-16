@@ -24,7 +24,7 @@ function formatDuration(iso: string) {
     const match = iso.match(/PT(\d+M)?(\d+S)?/);
     const minutes = match?.[1]?.replace("M", "") || "0";
     const seconds = match?.[2]?.replace("S", "") || "00";
-    return '${ minutes }:${ seconds.padStart(2, "0") }';
+    return `${minutes}:${seconds.padStart(2, "0")}`;
 }
 
 const API_KEY = "AIzaSyDXTNGsNnpiTPdUpQNnL3ZzPyeK9YMBMqQ";
@@ -110,7 +110,7 @@ function App() {
                 </div>
                 <div id="stats" className="menuItem">
                     <div />
-                    <p>Du har spildt timer på shorts denne uge</p>
+                    <p>Du har spildt x timer på shorts denne uge</p>
                     <p>Du kunne vist have været mere produktiv</p>
                 </div>
                 <div id="search_results" className="menuItem remove">
@@ -118,27 +118,27 @@ function App() {
                         <div className="grid search">
                             {videos.length === 0 ? (
                                 <p className="loading">Loading...</p>
-                            ) : (
-                                videos.map((video) => (
-                                    <div
-                                        key={video.ID}
-                                        className="portrait search"
-                                        onPointerUp={() => {
-                                            setSelectedVideo(video.ID);
-                                            overlayHide();
-                                        }}
-                                    >
-                                        <img src={video.thumbnail} />
+                            ) : (videos.map((video) => (
+                                <div
+                                    key={video.ID}
+                                    className="portrait search"
+                                    onPointerUp={() => {
+                                        setSelectedVideo(video.ID);
+                                        overlayHide();
+                                    }}
+                                >
+                                    <img src={video.thumbnail} />
 
-                                        <div className="ThumbOverlay">
-                                            <span className="title">{video.title}</span>
-                                            <span className="duration">{video.duration}</span>
-                                        </div>
+                                    <div className="ThumbOverlay">
+                                        <span className="title">{video.title}</span>
+                                        <span className="duration">{video.duration}</span>
                                     </div>
-                                ))
+                                </div>
+                            ))
                             )}
                         </div>
                     </div>
+                    <div className="spacer100"/>
                 </div>
             </div>
         </div>
