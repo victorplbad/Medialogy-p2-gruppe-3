@@ -2,10 +2,11 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
+import API_KEY from "./API_KEY";
+
 import { useRef, useState, useEffect } from 'react';
 
 import './giga.css'
-import API_KEY from "./API_KEY";
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
