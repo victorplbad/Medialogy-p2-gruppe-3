@@ -9,6 +9,7 @@ import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
 import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
+import API_KEY from "./assets/API_KEY";
 
 import type { Video } from "./VideoType";
 
@@ -26,8 +27,6 @@ function formatDuration(iso: string) {
     const seconds = match?.[2]?.replace("S", "") || "00";
     return `${minutes}:${seconds.padStart(2, "0")}`;
 }
-
-const API_KEY = "AIzaSyDXTNGsNnpiTPdUpQNnL3ZzPyeK9YMBMqQ";
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
