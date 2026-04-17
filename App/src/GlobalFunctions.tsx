@@ -51,7 +51,7 @@ export async function getVideoInfo(VideoIDs: string[]) {
     const data = await res.json();
 
     const videos: Video[] = data.items.map((item: any) => ({
-        id: item.id,
+        ID: item.id,
         title: item.snippet.title,
         thumbnail: item.snippet.thumbnails.high.url,
         duration: formatDuration(item.contentDetails.duration),
@@ -69,18 +69,29 @@ function formatDuration(iso: string) {
 
 export function populateResults(videos: Video[]) {
     const container = document.getElementById("resultContainer") as HTMLElement;
-    let newInner = "";
+    container.innerHTML = "";
     videos.forEach((video) => {
-        newInner += `
-        <div className="portrait search" key=${video.ID}
-            <img src=${video.thumbnail} />
-            
-            <div className="ThumbOverlay">
-                <span className="title">${video.title}</span>
-                <span className="duration">${video.duration}</span>
-            </div>
-        </div>`;
+        /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
+        const vOption = document.createElement("div");
+        vOption.addEventListener("click", () => { alert(video.ID) })/*This is where we pick a new video*/
+        vOption.setAttribute("class", "portrait search");
+        const vImg = document.createElement("img");
+        vImg.setAttribute("src", video.thumbnail);
+        const vTitle = document.createElement("span")
+        vTitle.setAttribute("class", "title");
+        vTitle.innerHTML = video.title;
+        const vDuration = document.createElement("span")
+        vDuration.setAttribute("class", "duration");
+        vDuration.innerHTML = video.duration;
+        const vDiv = document.createElement("div");
+        vDiv.setAttribute("class", "ThumbOverlay");
+        vDiv.append(vTitle);
+        vDiv.append(vDuration);
+        
+        vOption.append(vImg);
+        vOption.append(vDiv);
+
+        container.append(vOption);
     })
-    container.innerHTML = newInner;
 };
 

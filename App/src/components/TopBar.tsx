@@ -30,11 +30,10 @@ const TopBar: React.FC = () => {
                     onKeyDown={async (event) => {
                         if (event.key === "Enter") {
                             /*Do a Search*/
-                            alert(event.currentTarget.value);
                             const results = await search(event.currentTarget.value);
-                            console.log(results);
+                            //console.log(results);
                             const vInfo = await getVideoInfo(results);
-                            console.log(vInfo);
+                            //console.log(vInfo);
                             populateResults(vInfo);
                             //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
                             switchMenu("search_results");
