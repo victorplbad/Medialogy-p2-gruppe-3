@@ -73,14 +73,14 @@ export function populateResults(videos: Video[]) {
     videos.forEach((video) => {
         /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
         const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { alert(video.ID) })/*This is where we pick a new video*/
+        vOption.addEventListener("click", () => { alert(video.ID) });/*This is where we pick a new video*/
         vOption.setAttribute("class", "portrait search");
         const vImg = document.createElement("img");
         vImg.setAttribute("src", video.thumbnail);
-        const vTitle = document.createElement("span")
+        const vTitle = document.createElement("span");
         vTitle.setAttribute("class", "title");
         vTitle.innerHTML = video.title;
-        const vDuration = document.createElement("span")
+        const vDuration = document.createElement("span");
         vDuration.setAttribute("class", "duration");
         vDuration.innerHTML = video.duration;
         const vDiv = document.createElement("div");
