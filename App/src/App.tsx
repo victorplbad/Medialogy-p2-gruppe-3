@@ -111,7 +111,6 @@ function App() {
 
             <div className="overlay show">
                 <TopBar />
-                <button onClick={async () => await search("cars")}>Search</button>
                 <div id="settings" className="menuItem remove">
                     <PageSettings />
                 </div>
