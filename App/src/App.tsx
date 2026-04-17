@@ -10,7 +10,7 @@ import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
-import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
+import { overlayToggle, overlayShow, overlayHide, search } from './GlobalFunctions';
 
 import type { Video } from "./VideoType";
 
@@ -59,6 +59,7 @@ function App() {
 
             setVideos(parsed);
         };
+
         fetchVideos();
         console.log(videos.length);
     }, []);
@@ -110,6 +111,7 @@ function App() {
 
             <div className="overlay show">
                 <TopBar />
+                <button onClick={async () => await search("cars")}>Search</button>
                 <div id="settings" className="menuItem remove">
                     <PageSettings />
                 </div>
@@ -120,7 +122,7 @@ function App() {
                 </div>
                 <div id="search_results" className="menuItem remove">
                     <div className="search_results">
-                        <div className="grid search">
+                        <div id="resultContainer" className="grid search">
                             {videos.length === 0 ? (
                                 <p className="loading">Loading...</p>
                             ) : (videos.map((video) => (

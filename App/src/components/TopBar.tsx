@@ -1,7 +1,7 @@
 // src/components/TopBar.tsx
 import React, { useState } from "react";
 import "./TopBar.css";
-import switchMenu from "../GlobalFunctions.tsx";
+import { switchMenu, search, getVideoInfo, populateResults } from "../GlobalFunctions.tsx";
 
 const TopBar: React.FC = () => {
     const [query, setQuery] = useState("");
@@ -27,11 +27,17 @@ const TopBar: React.FC = () => {
                     onChange={(event) => {
                         setQuery(event.target.value)
                     }}
-                    onKeyDown={(event) => {
+                    onKeyDown={async (event) => {
                         if (event.key === "Enter") {
                             /*Do a Search*/
                             alert(event.currentTarget.value);
-                            switchMenu("search_results")
+                            const results = await search(event.currentTarget.value);
+                            console.log(results);
+                            const vInfo = await getVideoInfo(results);
+                            console.log(vInfo);
+                            populateResults(vInfo);
+                            //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
+                            switchMenu("search_results");
                         } else {
                             /*Suggest search terms?*/
                         }
