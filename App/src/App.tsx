@@ -10,7 +10,7 @@ import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
-import { overlayToggle, overlayShow, overlayHide, search } from './GlobalFunctions';
+import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
 
 import type { Video } from "./VideoType";
 
@@ -75,7 +75,7 @@ function App() {
         if (touchStartX.current === null || touchStartY.current === null) return;
 
         const deltaX = touchStartX.current - e.changedTouches[0].clientX;
-        const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+        //const deltaY = touchStartY.current - e.changedTouches[0].clientY;
 
         if (deltaX > 50) {
             overlayHide();
