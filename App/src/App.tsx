@@ -102,8 +102,15 @@ function App() {
         >
             {!hasTouch && (<button className="weirdButton" onClick={() => overlayToggle()}>Close overlay</button>)}
             {/*VideoPLayer followed by videoselection implementation*/}
-            <VideoList />
-
+            {/*<VideoList />*/}
+            
+            <div className="videoContainer">
+                <iframe id="videoPlayer"
+                    src={`https://www.youtube.com/embed/${"O3eYxjuYls4"}?autoplay=1`}
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                />
+            </div>
             {/*
                 Above here should be the video player and new video selection
                 Below here should be the menu/overlay functions

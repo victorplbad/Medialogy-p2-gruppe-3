@@ -35,8 +35,9 @@ export function overlayShow() {
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 export async function search(query: string) {
     const reply = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=${query}&key=${API_KEY}`
+        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&videoDuration=short&type=video&q=${encodeURIComponent(query + " #short")}&key=${API_KEY}`
     );
+    
     const data = await reply.json();
     //console.log(data.items.map((item) => { return item.id.videoId }));
     //console.log(data.items);
@@ -70,10 +71,11 @@ function formatDuration(iso: string) {
 export function populateResults(videos: Video[]) {
     const container = document.getElementById("resultContainer") as HTMLElement;
     container.innerHTML = "";
+
     videos.forEach((video) => {
         /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
         const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { alert(video.ID) });/*This is where we pick a new video*/
+        vOption.addEventListener("click", () => { playVideo(video.ID) });/*This is where we pick a new video*/
         vOption.setAttribute("class", "portrait search");
         const vImg = document.createElement("img");
         vImg.setAttribute("src", video.thumbnail);
@@ -95,4 +97,15 @@ export function populateResults(videos: Video[]) {
     })
 };
 
+function playVideo(videoID: string) {
+    overlayHide();
+    const container = document.getElementById("videoPlayer") as HTMLElement;
+    container.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
 
+    //const iFrame = document.createElement("iframe");
+    //iFrame.setAttribute("src", `{https://www.youtube.com/embed/${videoID}?autoplay=1})`);
+    //iFrame.setAttribute("allow", "autoplay; encrypted-media");
+    ////iFrame.setAttribute("allowFullscreen", "");
+
+    //container.append(iFrame);
+}

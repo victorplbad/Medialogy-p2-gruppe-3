@@ -16,6 +16,19 @@
     touch-action: pan-x;
 }
 
+.videoContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+    .videoContainer iframe {
+        height: 100%;
+        aspect-ratio: 9 / 16;
+    }
+
 .spacer100 {
     height: 100px;
 }
