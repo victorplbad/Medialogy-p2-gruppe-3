@@ -1,5 +1,7 @@
+import API_KEY from "./API_KEY";
+import type { Video } from "./VideoType";
 
-function switchMenu(ID: string) {
+export function switchMenu(ID: string) {
     if (ID === "settings") {
         document.getElementById("searchbar")?.classList.add("hide");
     } else {
@@ -11,7 +13,6 @@ function switchMenu(ID: string) {
     }
     document.getElementById(ID)?.classList.remove("remove");
 }
-export default switchMenu;
 
 export function overlayToggle() {
     const overlay = document.getElementsByClassName("overlay")[0];
@@ -27,4 +28,84 @@ export function overlayHide() {
 export function overlayShow() {
     document.getElementsByClassName("overlay")[0].classList.add("show");
     document.getElementsByClassName("weirdButton")[0].innerHTML = "Close overlay";
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------Youtube API implementation---------------------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+export async function search(query: string) {
+    const reply = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&videoDuration=short&type=video&q=${encodeURIComponent(query + " #short")}&key=${API_KEY}`
+    );
+    
+    const data = await reply.json();
+    //console.log(data.items.map((item) => { return item.id.videoId }));
+    //console.log(data.items);
+    return data.items.map((item) => { return item.id.videoId });
+};
+
+export async function getVideoInfo(VideoIDs: string[]) {
+    const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${VideoIDs.join(",")}&key=${API_KEY}`
+    );
+
+    const data = await res.json();
+
+    const videos: Video[] = data.items.map((item: any) => ({
+        ID: item.id,
+        title: item.snippet.title,
+        thumbnail: item.snippet.thumbnails.high.url,
+        duration: formatDuration(item.contentDetails.duration),
+    }));
+
+    return videos
+};
+
+function formatDuration(iso: string) {
+    const match = iso.match(/PT(\d+M)?(\d+S)?/);
+    const minutes = match?.[1]?.replace("M", "") || "0";
+    const seconds = match?.[2]?.replace("S", "") || "00";
+    return `${minutes}:${seconds.padStart(2, "0")}`;
+};
+
+export function populateResults(videos: Video[]) {
+    const container = document.getElementById("resultContainer") as HTMLElement;
+    container.innerHTML = "";
+
+    videos.forEach((video) => {
+        /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
+        const vOption = document.createElement("div");
+        vOption.addEventListener("click", () => { playVideo(video.ID) });/*This is where we pick a new video*/
+        vOption.setAttribute("class", "portrait search");
+        const vImg = document.createElement("img");
+        vImg.setAttribute("src", video.thumbnail);
+        const vTitle = document.createElement("span");
+        vTitle.setAttribute("class", "title");
+        vTitle.innerHTML = video.title;
+        const vDuration = document.createElement("span");
+        vDuration.setAttribute("class", "duration");
+        vDuration.innerHTML = video.duration;
+        const vDiv = document.createElement("div");
+        vDiv.setAttribute("class", "ThumbOverlay");
+        vDiv.append(vTitle);
+        vDiv.append(vDuration);
+        
+        vOption.append(vImg);
+        vOption.append(vDiv);
+
+        container.append(vOption);
+    })
+};
+
+function playVideo(videoID: string) {
+    overlayHide();
+    const container = document.getElementById("videoPlayer") as HTMLElement;
+    container.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
+
+    //const iFrame = document.createElement("iframe");
+    //iFrame.setAttribute("src", `{https://www.youtube.com/embed/${videoID}?autoplay=1})`);
+    //iFrame.setAttribute("allow", "autoplay; encrypted-media");
+    ////iFrame.setAttribute("allowFullscreen", "");
+
+    //container.append(iFrame);
 }

@@ -1,7 +1,7 @@
 // src/components/TopBar.tsx
 import React, { useState } from "react";
 import "./TopBar.css";
-import switchMenu from "../GlobalFunctions.tsx";    
+import { switchMenu, search, getVideoInfo, populateResults } from "../GlobalFunctions.tsx";
 
 const TopBar: React.FC = () => {
     const [query, setQuery] = useState("");
@@ -30,15 +30,14 @@ const TopBar: React.FC = () => {
                     onChange={(event) => {
                         setQuery(event.target.value)
                     }}
-                    onKeyDown={(event) => {
+                    onKeyDown={async (event) => {
                         if (event.key === "Enter") {
                             /*Do a Search*/
-                            alert(event.currentTarget.value);
-                            switchMenu("search_results")
+                            doSearch(event.currentTarget.value);
                         } else {
                             /*Suggest search terms?*/
                         }
-                    }}
+                    }}/*we might need a button too?*/
                 />
                 <SearchIcon />
             </div>
@@ -46,6 +45,16 @@ const TopBar: React.FC = () => {
     );
 };
 export default TopBar;
+
+async function doSearch(query: string) {
+    const results = await search(query);
+    //console.log(results);
+    const vInfo = await getVideoInfo(results);
+    //console.log(vInfo);
+    populateResults(vInfo);
+    //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
+    switchMenu("search_results");
+}
 
 const GearIcon = () => (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
