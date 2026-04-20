@@ -97,15 +97,55 @@ export function populateResults(videos: Video[]) {
     })
 };
 
-function playVideo(videoID: string) {
+const vHistory: string[] = [];
+
+export function playVideo(videoID: string) {
+    const length = vHistory.push(videoID);
+
     overlayHide();
-    const container = document.getElementById("videoPlayer") as HTMLElement;
-    container.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
 
-    //const iFrame = document.createElement("iframe");
-    //iFrame.setAttribute("src", `{https://www.youtube.com/embed/${videoID}?autoplay=1})`);
-    //iFrame.setAttribute("allow", "autoplay; encrypted-media");
-    ////iFrame.setAttribute("allowFullscreen", "");
-
-    //container.append(iFrame);
+    const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
+    videoContainer.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
+    showVideoPlayer();
 }
+
+function showVideoPlayer() {
+    const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
+    videoContainer.classList.remove("remove");
+    videoContainer.classList.add("active");
+
+    const selectionContainer = document.getElementById("selector") as HTMLElement;
+    selectionContainer.classList.remove("remove");
+    selectionContainer.classList.add("exit");
+    setTimeout(() => {
+        selectionContainer.classList.add("remove");
+        selectionContainer.classList.remove("active");
+        selectionContainer.classList.remove("exit");
+    }, 500);
+}
+
+export function showVideoSelector() {
+    const selectionContainer = document.getElementById("selector") as HTMLElement;
+    selectionContainer.classList.remove("remove");
+    selectionContainer.classList.add("active");
+
+    const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
+    videoContainer.classList.remove("remove");
+    videoContainer.classList.add("exit");
+    setTimeout(() => {
+        videoContainer.classList.add("remove");
+        videoContainer.classList.remove("active");
+        videoContainer.classList.remove("exit");
+    }, 500);
+}
+
+{/* PAGE 2 */ }
+{/*<div className="page video-page videoContainer">*/ }
+{/*    <iframe id="videoPlayer"*/ }
+{/*        src=""*/ }
+{/*        allow="autoplay; encrypted-media"*/ }
+{/*        allowFullScreen*/ }
+{/*    />*/ }
+{/*    */ } {/*<Comments />*/ }
+{/*    */ } {/*<BottomPanel />*/ }
+{/*</div>*/ }

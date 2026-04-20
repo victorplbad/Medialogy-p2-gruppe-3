@@ -24,8 +24,8 @@ function VideoList() {
 
     // PC control - ScrollWheel
     const handleWheel = (e: React.WheelEvent) => {
-        if (page === 1 && e.deltaY < -40) {
-            goToPage(0); // scroll up to go back
+        if (page === 0 && e.deltaY > 0) {
+            goToPage(1); //Go to next video selector
         }
     };
 
@@ -61,34 +61,37 @@ function VideoList() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
         >
-            <div
-                className="slider"
-                style={{ transform: `translateY(-${page * 100}vh)` }}
-            >
+            <div id="videoPanel" className="fill">
+
                 {/* PAGE 1 */}
-                <div className="page choice-page">
-                    <div className="grid">
-                        {[...Array(6)].map((_, i) => (
-                            <div
-                                key={i}
-                                className="portrait"
-                                onPointerDown={() => {
-                                    setTimeout(() => {
-                                        setPage(1);
-                                    }, 120); //delay on click
-                                }}
-                            >
-                                <span>Thumbnail {i + 1}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                {/*<div className="page choice-page">*/}
+                {/*    <div className="grid">*/}
+                {/*        {[...Array(6)].map((_, i) => (*/}
+                {/*            <div*/}
+                {/*                key={i}*/}
+                {/*                className="portrait"*/}
+                {/*                onPointerDown={() => {*/}
+                {/*                    setTimeout(() => {*/}
+                {/*                        setPage(1);*/}
+                {/*                    }, 120); //delay on click*/}
+                {/*                }}*/}
+                {/*            >*/}
+                {/*                <span>Thumbnail {i + 1}</span>*/}
+                {/*            </div>*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 {/* PAGE 2 */}
-                <div className="page video-page">
-                    <Comments />
-                    <BottomPanel />
-                </div>
+                {/*<div className="page video-page videoContainer">*/}
+                {/*    <iframe id="videoPlayer"*/}
+                {/*        src=""*/}
+                {/*        allow="autoplay; encrypted-media"*/}
+                {/*        allowFullScreen*/}
+                {/*    />*/}
+                {/*    */}{/*<Comments />*/}
+                {/*    */}{/*<BottomPanel />*/}
+                {/*</div>*/}
             </div>
         </div>
     );

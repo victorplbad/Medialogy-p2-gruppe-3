@@ -4,13 +4,13 @@
 // import heroImg from './assets/hero.png'
 import API_KEY from "./API_KEY";
 
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 
 import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
-import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
+import { overlayToggle, overlayShow, overlayHide, showVideoSelector, playVideo } from './GlobalFunctions';
 
 import type { Video } from "./VideoType";
 
@@ -21,48 +21,14 @@ const VideoIDs = [
     "vfuVrjPZPr4",
     "rUWVxJU77RU",
     "O3eYxjuYls4",
-    "Uhgoqj2Aa6Q",
-    "q7CgRt_-trM",
-    "vfuVrjPZPr4",
-    "rUWVxJU77RU",
 ];
-
-function formatDuration(iso: string) {
-    const match = iso.match(/PT(\d+M)?(\d+S)?/);
-    const minutes = match?.[1]?.replace("M", "") || "0";
-    const seconds = match?.[2]?.replace("S", "") || "00";
-    return `${minutes}:${seconds.padStart(2, "0")}`;
-}
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
     const touchStartX = useRef<number | null>(null);
     const touchStartY = useRef<number | null>(null);
 
-    const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-    const [videos, setVideos] = useState<Video[]>([]);
-
-    useEffect(() => {
-        const fetchVideos = async () => {
-            const res = await fetch(
-                `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${VideoIDs.join(",")}&key=${API_KEY}`
-            );
-
-            const data = await res.json();
-
-            const parsed: Video[] = data.items.map((item: any) => ({
-                id: item.id,
-                title: item.snippet.title,
-                thumbnail: item.snippet.thumbnails.high.url,
-                duration: formatDuration(item.contentDetails.duration),
-            }));
-
-            setVideos(parsed);
-        };
-
-        fetchVideos();
-        console.log(videos.length);
-    }, []);
+    const [page, setPage] = useState(0);
 
     // Touch start
     const TouchStart = (e: React.TouchEvent) => {
@@ -88,29 +54,49 @@ function App() {
         touchStartY.current = null;
     };
 
-    document.addEventListener("scroll", (event) => {
-        const e = event as WheelEvent;
-        if (e.deltaX > 5) overlayShow();
-        if (e.deltaX < -5) overlayHide();
-    });
+    const scrollHandler = (event: React.WheelEvent) => {
+        //alert(event.deltaY)
+        if (event.deltaY > 0) {
+            showVideoSelector();
+        }
+    }
 
     return (
         <div
             className="App"
+            onWheel={scrollHandler}
             onTouchStart={TouchStart}
             onTouchEnd={TouchEnd}
         >
             {!hasTouch && (<button className="weirdButton" onClick={() => overlayToggle()}>Close overlay</button>)}
             {/*VideoPLayer followed by videoselection implementation*/}
             {/*<VideoList />*/}
-            
-            <div className="videoContainer">
-                <iframe id="videoPlayer"
-                    src={`https://www.youtube.com/embed/${"O3eYxjuYls4"}?autoplay=1`}
-                    allow="autoplay; encrypted-media"
-                    allowFullScreen
-                />
+            <div id="videoPanel" className="fill">
+                {/* PAGE 0 */}
+                <div id="selector" className="page active">
+                    <div className="grid">
+                        {VideoIDs.map((v, k) => (
+                            <div
+                                key={k}
+                                className="portrait"
+                                onPointerDown={() => {
+                                    playVideo(v);
+                                }}
+                            >
+                                <span>K: {k} V: {v}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="videoContainer">
+                    <iframe id="videoPlayer" className="page"
+                        src={undefined}
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                    />
+                </div>
             </div>
+                
             {/*
                 Above here should be the video player and new video selection
                 Below here should be the menu/overlay functions
@@ -129,26 +115,6 @@ function App() {
                 <div id="search_results" className="menuItem remove">
                     <div className="search_results">
                         <div id="resultContainer" className="grid search">
-                            {videos.length === 0 ? (
-                                <p className="loading">Loading...</p>
-                            ) : (videos.map((video) => (
-                                <div
-                                    key={video.ID}
-                                    className="portrait search"
-                                    onPointerUp={() => {
-                                        setSelectedVideo(video.ID);
-                                        overlayHide();
-                                    }}
-                                >
-                                    <img src={video.thumbnail} />
-
-                                    <div className="ThumbOverlay">
-                                        <span className="title">{video.title}</span>
-                                        <span className="duration">{video.duration}</span>
-                                    </div>
-                                </div>
-                            ))
-                            )}
                         </div>
                     </div>
                     <div className="spacer100"/>
