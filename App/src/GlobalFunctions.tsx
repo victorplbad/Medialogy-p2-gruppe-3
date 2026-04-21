@@ -152,8 +152,10 @@ function scrollPlayer(down: boolean) {
 }
 
 function showVideoPlayer() {
-    const selector = document.getElementById("selector") as HTMLElement;
-    selector.classList.add("remove");
+    setTimeout(() => {
+        const selector = document.getElementById("selector") as HTMLElement;
+        selector.classList.add("remove");
+    }, 500);
 
     const iFrame = activeContainer.children[0] as HTMLElement;
     iFrame.classList.remove("remove");
