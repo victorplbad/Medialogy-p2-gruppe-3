@@ -7,23 +7,106 @@
 }
 
 .slider {
-  transition: transform 0.6s ease;
+  /* transition: transform 0.6s ease; */
   position: relative;
-  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+  /* z-index: 1; */
 }
 
 .page {
-  height: 100vh;
+  /* height: 100vh;
   width: 100%;
   padding-top: 52px;
-  box-sizing: border-box;
+  box-sizing: border-box; */
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s ease;;
 }
 
+/* .page {
+  transform: translateY(100%);
+} */
+
+/* .page.active {
+  transform: translateY(0);
+} */
+
+.page.exit-up {
+  transform: translateY(-100%);
+}
+.page.exit-down {
+  transform: translateY(100%);
+}
+
+.enter-bottom {
+  transform: translateY(100%);
+}
+
+.enter-top {
+  transform: translateY(-100%);
+}
+
+.active {
+  transform: translateY(0);
+}
+
+.page:not(.active) {
+  pointer-events: none;
+}
+
+.choice-page:not(.active) {
+  will-change: transform;
+}
+
+.video-page.page:not(.active) {
+  will-change: transform;
+}
+
+/* .choice-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100%);
+} */
 
 .choice-page {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* transform: translateY(100%); */
+}
+
+.choice-page.active {
+  transform: translateY(0);
+}
+
+.choice-page.from-top {
+  transform: translateY(-100%);
+}
+
+/* --------------- */
+
+.video-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  color: white;
+  /* transform: translateY(100%); */
+}
+
+.video-page.active {
+  transform: translateY(0);
+}
+
+.video-page.exit-up {
+  transform: translateY(-100%);
+}
+
+.video-page.exit-down {
+  transform: translateY(100%);
 }
 
 
@@ -63,14 +146,23 @@
 }
 
 /* PAGE 2 */
-.video-page {
+/* .video-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #222;
   color: white;
-}
+  transform: translateY(0);
+} */
+
+/* .video-page.page.exit-up {
+  transform: translateY(-100%);
+} */
+
+/* .video-page.page.exit-down {
+  transform: translateY(100%);
+} */
 
 
 
