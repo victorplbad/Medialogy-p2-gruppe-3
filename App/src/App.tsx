@@ -72,7 +72,7 @@ function App() {
                             <div
                                 key={k}
                                 className="portrait"
-                                onClick={() => {
+                                onClick={() => {//MUST NOT BE ON POINTER DOWN
                                     playVideo(v);
                                 }}
                             >

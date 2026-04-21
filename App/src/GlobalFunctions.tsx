@@ -99,10 +99,9 @@ export function populateResults(videos: Video[]) {
 
 const vHistory: string[] = [];
 let currentVideo: number = 0;
-let scrolling: boolean = false;
 
 export function playVideo(videoID: string) {
-    const length = vHistory.push(videoID);
+    if (currentVideo === vHistory.length) currentVideo = vHistory.push(videoID);
 
     overlayHide();
 
@@ -141,26 +140,21 @@ export function showVideoSelector() {
     }, 500);
 }
 
+let scrolling: boolean = false;
 export function scrollHandler(event: React.WheelEvent) {
     if (scrolling) return;
+    console.log("SCROLL!!!: " + event.deltaY);
     //alert(event.deltaY)
     if (event.deltaY > 0 && currentVideo === vHistory.length) {
         showVideoSelector();
     }
     else if (event.deltaY > 0 && currentVideo < vHistory.length) {
-        
+        playVideo(vHistory[++currentVideo]);
+        //TODO add animation
+    } else if (event.deltaY < 0 && currentVideo > 0) {
+        playVideo(vHistory[--currentVideo]);
+        //TODO add animation
     }
     scrolling = true;
     setTimeout(() => { scrolling = false }, 500);
 }
-
-{/* PAGE 2 */ }
-{/*<div className="page video-page videoContainer">*/ }
-{/*    <iframe id="videoPlayer"*/ }
-{/*        src=""*/ }
-{/*        allow="autoplay; encrypted-media"*/ }
-{/*        allowFullScreen*/ }
-{/*    />*/ }
-{/*    */ } {/*<Comments />*/ }
-{/*    */ } {/*<BottomPanel />*/ }
-{/*</div>*/ }
