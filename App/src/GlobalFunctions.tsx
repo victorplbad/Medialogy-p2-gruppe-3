@@ -98,6 +98,8 @@ export function populateResults(videos: Video[]) {
 };
 
 const vHistory: string[] = [];
+let currentVideo: number = 0;
+let scrolling: boolean = false;
 
 export function playVideo(videoID: string) {
     const length = vHistory.push(videoID);
@@ -137,6 +139,19 @@ export function showVideoSelector() {
         videoContainer.classList.remove("active");
         videoContainer.classList.remove("exit");
     }, 500);
+}
+
+export function scrollHandler(event: React.WheelEvent) {
+    if (scrolling) return;
+    //alert(event.deltaY)
+    if (event.deltaY > 0 && currentVideo === vHistory.length) {
+        showVideoSelector();
+    }
+    else if (event.deltaY > 0 && currentVideo < vHistory.length) {
+        
+    }
+    scrolling = true;
+    setTimeout(() => { scrolling = false }, 500);
 }
 
 {/* PAGE 2 */ }

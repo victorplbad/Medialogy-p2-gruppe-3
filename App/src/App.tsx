@@ -10,7 +10,7 @@ import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
-import { overlayToggle, overlayShow, overlayHide, showVideoSelector, playVideo } from './GlobalFunctions';
+import { overlayToggle, overlayShow, overlayHide, playVideo, scrollHandler } from './GlobalFunctions';
 
 import type { Video } from "./VideoType";
 
@@ -54,13 +54,6 @@ function App() {
         touchStartY.current = null;
     };
 
-    const scrollHandler = (event: React.WheelEvent) => {
-        //alert(event.deltaY)
-        if (event.deltaY > 0) {
-            showVideoSelector();
-        }
-    }
-
     return (
         <div
             className="App"
@@ -79,7 +72,7 @@ function App() {
                             <div
                                 key={k}
                                 className="portrait"
-                                onPointerDown={() => {
+                                onClick={() => {
                                     playVideo(v);
                                 }}
                             >
