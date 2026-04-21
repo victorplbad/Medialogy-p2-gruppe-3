@@ -65,30 +65,30 @@ function App() {
             {/*VideoPLayer followed by videoselection implementation*/}
             {/*<VideoList />*/}
             <div id="videoPanel" className="fill">
-                {/* PAGE 0 */}
-                <div id="selector" className="page active">
-                    <div className="grid">
-                        {VideoIDs.map((v, k) => (
-                            <div
-                                key={k}
-                                className="portrait"
-                                onClick={() => {//MUST NOT BE ON POINTER DOWN
-                                    onClickHandler(v);
-                                }}
-                            >
-                                <span>K: {k} V: {v}</span>
-                            </div>
-                        ))}
-                    </div>
+                <div id="vContainer1" className="videoContainer hide page">
+                    <iframe id="videoPlayer" className="remove"
+                        src="about: blank"
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                    />
                 </div>
-                <div className="videoContainer">
-                    <iframe id="videoPlayer" className="page"
-                        src={undefined}
+                <div id="vContainer2" className="videoContainer hide page up">
+                    <iframe id="videoPlayer" className="remove"
+                        src="about:blank"
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                    />
+                </div>
+                <div id="vContainer3" className="videoContainer hide page down">
+                    <iframe id="videoPlayer" className="remove"
+                        src="about: blank"
                         allow="autoplay; encrypted-media"
                         allowFullScreen
                     />
                 </div>
             </div>
+            {/* PAGE 0 */}
+            
                 
             {/*
                 Above here should be the video player and new video selection
@@ -111,6 +111,24 @@ function App() {
                         </div>
                     </div>
                     <div className="spacer100"/>
+                </div>
+            </div>
+
+
+            {/*Template elements*/}
+            <div id="selector" className="remove">
+                <div className="grid">
+                    {VideoIDs.map((v, k) => (
+                        <div
+                            key={k}
+                            className="portrait"
+                            onClick={() => {//MUST NOT BE ON POINTER DOWN
+                                onClickHandler(v);
+                            }}
+                        >
+                            <span>K: {k} V: {v}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

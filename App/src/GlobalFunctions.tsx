@@ -1,3 +1,4 @@
+import { act } from "react";
 import API_KEY from "./API_KEY";
 import type { Video } from "./VideoType";
 
@@ -77,7 +78,7 @@ export function populateResults(videos: Video[]) {
     videos.forEach((video) => {
         /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
         const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { onClickHandler(video.ID) });/*This is where we pick a new video*/
+        vOption.addEventListener("click", () => { onClickHandler(video.ID) });
         vOption.setAttribute("class", "portrait search");
         const vImg = document.createElement("img");
         vImg.setAttribute("src", video.thumbnail);
@@ -101,46 +102,75 @@ export function populateResults(videos: Video[]) {
 
 export function onClickHandler(videoID: string) {
     vHistory.push(videoID);
-    console.log(vHistory.length + " : " + videoID);
+    scrollPlayer(false);
     playVideo(videoID);
 }
 
-export function playVideo(videoID: string) {
-    overlayHide(); 
+let activeContainer: HTMLElement = document.getElementById("vContainer1") as HTMLElement;
+let upperContainer: HTMLElement = document.getElementById("vContainer2") as HTMLElement;
+let lowerContainer: HTMLElement = document.getElementById("vContainer3") as HTMLElement;
 
-    const videoFrame = document.getElementById("videoPlayer") as HTMLElement;
-    videoFrame.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
+export function playVideo(videoID: string) {
+    overlayHide();
     showVideoPlayer();
+
+    activeContainer.children[0].setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`)
+    upperContainer.children[0].setAttribute("src", `about:blank`)
+    lowerContainer.children[0].setAttribute("src", `about:blank`)
+}
+
+function scrollPlayer(down: boolean) {
+    if (activeContainer == null) activeContainer = document.getElementById("vContainer1") as HTMLElement;
+    if (upperContainer == null) upperContainer = document.getElementById("vContainer2") as HTMLElement;
+    if (lowerContainer == null) lowerContainer = document.getElementById("vContainer3") as HTMLElement;
+
+    if (down) {
+        //Move active elements down
+        activeContainer.classList.add("down");
+        upperContainer.classList.remove("up");
+        upperContainer.classList.remove("hide");
+        //Handle wraparound
+        lowerContainer.classList.remove("down");
+        lowerContainer.classList.add("up");
+        lowerContainer.classList.add("hide");
+        //Swap variables around
+        const tmp = upperContainer;
+        upperContainer = lowerContainer;
+        lowerContainer = activeContainer;
+        activeContainer = tmp;
+    } else {
+        //Move active elements up
+        activeContainer.classList.add("up");
+        lowerContainer.classList.remove("down");
+        lowerContainer.classList.remove("hide");
+        //Handle wraparound
+        upperContainer.classList.remove("up");
+        upperContainer.classList.add("down");
+        upperContainer.classList.add("hide");
+        //Swap variables around
+        const tmp = lowerContainer;
+        lowerContainer = upperContainer;
+        upperContainer = activeContainer;
+        activeContainer = tmp;
+    }
 }
 
 function showVideoPlayer() {
-    const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
-    videoContainer.classList.remove("remove");
-    videoContainer.classList.add("active");
+    const selector = document.getElementById("selector") as HTMLElement;
+    selector.classList.add("remove");
 
-    const selectionContainer = document.getElementById("selector") as HTMLElement;
-    selectionContainer.classList.remove("remove");
-    selectionContainer.classList.add("exit");
-    setTimeout(() => {
-        selectionContainer.classList.add("remove");
-        selectionContainer.classList.remove("active");
-        selectionContainer.classList.remove("exit");
-    }, 500);
+    const iFrame = activeContainer.children[0] as HTMLElement;
+    iFrame.classList.remove("remove");
 }
 
 export function showVideoSelector() {
-    const selectionContainer = document.getElementById("selector") as HTMLElement;
-    selectionContainer.classList.remove("remove");
-    selectionContainer.classList.add("active");
+    const selector = document.getElementById("selector") as HTMLElement;
+    selector.classList.remove("remove");
 
-    const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
-    videoContainer.classList.remove("remove");
-    videoContainer.classList.add("exit");
-    setTimeout(() => {
-        videoContainer.classList.add("remove");
-        videoContainer.classList.remove("active");
-        videoContainer.classList.remove("exit");
-    }, 500);
+    const iFrame = activeContainer.children[0] as HTMLElement;
+    iFrame.classList.add("remove");
+
+    activeContainer.appendChild(selector);
 }
 
 let scrolling: boolean = false;
@@ -148,16 +178,21 @@ export function scrollHandler(event: React.WheelEvent) {
     if (scrolling) return;
     //console.log("SCROLL!!!: " + currentVideo + " : " + vHistory.length + " VID: " + vHistory[currentVideo]);
     console.log(vHistory.length);
-    //alert(event.deltaY)
+
     if (event.deltaY > 0) {
+        console.log("1");
+        scrollPlayer(false);
         showVideoSelector();
     } else if (event.deltaY < 0 && vHistory.length > 1) {
+        console.log("2");
         vHistory.pop()
+        scrollPlayer(true);
         const video = vHistory[vHistory.length - 1];
         if (video !== undefined) playVideo(video);
-        //TODO add animation
     } else if (event.deltaY < 0) {
+        console.log("3");
         vHistory = [];
+        scrollPlayer(true);
         showVideoSelector();
     }
     scrolling = true;

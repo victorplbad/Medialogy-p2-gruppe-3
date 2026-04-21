@@ -174,15 +174,15 @@
     right: 0;
     margin-inline: auto;
     transition: transform 0.5s ease;
-    transform: translateY(100%);
+    transform: translateY(0%);
 }
 
-    .page.active {
-        transform: translateY(0%);
+    .page.up {
+        transform: translateY(-100%);
     }
 
-    .page.exit {
-        transform: translateY(-100%);
+    .page.down {
+        transform: translateY(100%);
     }
 
 .choice-page {
