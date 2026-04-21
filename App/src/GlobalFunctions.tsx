@@ -147,6 +147,7 @@ export function scrollHandler(event: React.WheelEvent) {
     //alert(event.deltaY)
     if (event.deltaY > 0 && currentVideo === vHistory.length) {
         showVideoSelector();
+        currentVideo++;
     }
     else if (event.deltaY > 0 && currentVideo < vHistory.length) {
         playVideo(vHistory[++currentVideo]);
