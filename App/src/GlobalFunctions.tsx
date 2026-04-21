@@ -69,7 +69,6 @@ function formatDuration(iso: string) {
 };
 
 let vHistory: string[] = [];
-let lastVideo: boolean = true;
 
 export function populateResults(videos: Video[]) {
     const container = document.getElementById("resultContainer") as HTMLElement;
@@ -103,15 +102,14 @@ export function populateResults(videos: Video[]) {
 export function onClickHandler(videoID: string) {
     vHistory.push(videoID);
     console.log(vHistory.length + " : " + videoID);
-    lastVideo = true;
     playVideo(videoID);
 }
 
 export function playVideo(videoID: string) {
     overlayHide(); 
 
-    const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
-    videoContainer.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
+    const videoFrame = document.getElementById("videoPlayer") as HTMLElement;
+    videoFrame.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
     showVideoPlayer();
 }
 

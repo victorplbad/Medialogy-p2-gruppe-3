@@ -170,6 +170,9 @@
 .page {
     position: absolute;
     inset: 0px;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
     transition: transform 0.5s ease;
     transform: translateY(100%);
 }
