@@ -68,6 +68,9 @@ function formatDuration(iso: string) {
     return `${minutes}:${seconds.padStart(2, "0")}`;
 };
 
+let vHistory: string[] = [];
+let lastVideo: boolean = true;
+
 export function populateResults(videos: Video[]) {
     const container = document.getElementById("resultContainer") as HTMLElement;
     container.innerHTML = "";
@@ -75,7 +78,7 @@ export function populateResults(videos: Video[]) {
     videos.forEach((video) => {
         /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
         const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { playVideo(video.ID) });/*This is where we pick a new video*/
+        vOption.addEventListener("click", () => { onClickHandler(video.ID) });/*This is where we pick a new video*/
         vOption.setAttribute("class", "portrait search");
         const vImg = document.createElement("img");
         vImg.setAttribute("src", video.thumbnail);
@@ -97,13 +100,15 @@ export function populateResults(videos: Video[]) {
     })
 };
 
-const vHistory: string[] = [];
-let currentVideo: number = 0;
+export function onClickHandler(videoID: string) {
+    vHistory.push(videoID);
+    console.log(vHistory.length + " : " + videoID);
+    lastVideo = true;
+    playVideo(videoID);
+}
 
 export function playVideo(videoID: string) {
-    if (currentVideo === vHistory.length) currentVideo = vHistory.push(videoID);
-
-    overlayHide();
+    overlayHide(); 
 
     const videoContainer = document.getElementById("videoPlayer") as HTMLElement;
     videoContainer.setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`);
@@ -143,18 +148,19 @@ export function showVideoSelector() {
 let scrolling: boolean = false;
 export function scrollHandler(event: React.WheelEvent) {
     if (scrolling) return;
-    console.log("SCROLL!!!: " + event.deltaY);
+    //console.log("SCROLL!!!: " + currentVideo + " : " + vHistory.length + " VID: " + vHistory[currentVideo]);
+    console.log(vHistory.length);
     //alert(event.deltaY)
-    if (event.deltaY > 0 && currentVideo === vHistory.length) {
+    if (event.deltaY > 0) {
         showVideoSelector();
-        currentVideo++;
-    }
-    else if (event.deltaY > 0 && currentVideo < vHistory.length) {
-        playVideo(vHistory[++currentVideo]);
+    } else if (event.deltaY < 0 && vHistory.length > 1) {
+        vHistory.pop()
+        const video = vHistory[vHistory.length - 1];
+        if (video !== undefined) playVideo(video);
         //TODO add animation
-    } else if (event.deltaY < 0 && currentVideo > 0) {
-        playVideo(vHistory[--currentVideo]);
-        //TODO add animation
+    } else if (event.deltaY < 0) {
+        vHistory = [];
+        showVideoSelector();
     }
     scrolling = true;
     setTimeout(() => { scrolling = false }, 500);

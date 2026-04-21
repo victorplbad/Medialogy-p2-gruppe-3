@@ -10,7 +10,7 @@ import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
-import { overlayToggle, overlayShow, overlayHide, playVideo, scrollHandler } from './GlobalFunctions';
+import { overlayToggle, overlayShow, overlayHide, onClickHandler, scrollHandler } from './GlobalFunctions';
 
 import type { Video } from "./VideoType";
 
@@ -73,7 +73,7 @@ function App() {
                                 key={k}
                                 className="portrait"
                                 onClick={() => {//MUST NOT BE ON POINTER DOWN
-                                    playVideo(v);
+                                    onClickHandler(v);
                                 }}
                             >
                                 <span>K: {k} V: {v}</span>
