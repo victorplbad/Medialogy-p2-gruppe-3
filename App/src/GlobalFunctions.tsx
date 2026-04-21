@@ -120,10 +120,6 @@ export function playVideo(videoID: string) {
 }
 
 function scrollPlayer(down: boolean) {
-    if (activeContainer == null) activeContainer = document.getElementById("vContainer1") as HTMLElement;
-    if (upperContainer == null) upperContainer = document.getElementById("vContainer2") as HTMLElement;
-    if (lowerContainer == null) lowerContainer = document.getElementById("vContainer3") as HTMLElement;
-
     if (down) {
         //Move active elements down
         activeContainer.classList.add("down");
@@ -176,10 +172,14 @@ export function showVideoSelector() {
 let scrolling: boolean = false;
 export function scrollHandler(event: React.WheelEvent) {
     if (scrolling) return;
-    //console.log("SCROLL!!!: " + currentVideo + " : " + vHistory.length + " VID: " + vHistory[currentVideo]);
-    console.log(vHistory.length);
+    scrolling = true;
+    setTimeout(() => { scrolling = false }, 500);
 
-    if (event.deltaY > 0) {
+    if (activeContainer == null) activeContainer = document.getElementById("vContainer1") as HTMLElement;
+    if (upperContainer == null) upperContainer = document.getElementById("vContainer2") as HTMLElement;
+    if (lowerContainer == null) lowerContainer = document.getElementById("vContainer3") as HTMLElement;
+
+    if (event.deltaY > 0 && activeContainer.children.length === 1) {
         console.log("1");
         scrollPlayer(false);
         showVideoSelector();
@@ -189,12 +189,10 @@ export function scrollHandler(event: React.WheelEvent) {
         scrollPlayer(true);
         const video = vHistory[vHistory.length - 1];
         if (video !== undefined) playVideo(video);
-    } else if (event.deltaY < 0) {
+    } else if (event.deltaY !== 0) {
         console.log("3");
         vHistory = [];
-        scrollPlayer(true);
+        scrollPlayer(event.deltaY < 0);
         showVideoSelector();
     }
-    scrolling = true;
-    setTimeout(() => { scrolling = false }, 500);
 }
