@@ -1,7 +1,4 @@
 import { useState, useRef } from "react";
-import TopBar from "./components/TopBar";
-import Comments from "./Comments";
-import BottomPanel from "./BottomPanel";
 
 import "./giga.css";
 
@@ -19,7 +16,7 @@ function VideoList() {
 
         setTimeout(() => {
             isAnimating.current = false;
-        }, 600); //match css transition
+        }, 600); //match css transition time
     };
 
     // PC control - ScrollWheel

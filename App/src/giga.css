@@ -56,6 +56,13 @@
     height: 8vh;
 }
 
+/*.insertRight {
+    top: 0px;
+    bottom: 0px;
+    border-radius: 50%;
+    right: 0px;
+}*/
+
 .menuItem {
     height: 100%;
     overflow-y: auto;

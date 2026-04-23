@@ -2,17 +2,12 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
-import API_KEY from "./API_KEY";
-
 import React, { useRef, useState } from 'react';
 
 import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
-import VideoList from "./VideoList";
 import { overlayToggle, overlayShow, overlayHide, onClickHandler, scrollHandler } from './GlobalFunctions';
-
-import type { Video } from "./VideoType";
 
 const VideoIDs = [
     "O3eYxjuYls4",
@@ -27,8 +22,6 @@ function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
     const touchStartX = useRef<number | null>(null);
     const touchStartY = useRef<number | null>(null);
-
-    const [page, setPage] = useState(0);
 
     // Touch start
     const TouchStart = (e: React.TouchEvent) => {
@@ -102,8 +95,8 @@ function App() {
                 </div>
                 <div id="stats" className="menuItem">
                     <div />
-                    <p>Du har spildt x timer på shorts denne uge</p>
-                    <p>Du kunne vist have været mere produktiv</p>
+                    <p>Du har brugt x timer på shorts denne uge</p>
+                    <p>PLACEHOLDER</p>
                 </div>
                 <div id="search_results" className="menuItem remove">
                     <div className="search_results">
@@ -122,7 +115,7 @@ function App() {
                         <div
                             key={k}
                             className="portrait"
-                            onClick={() => {//MUST NOT BE ON POINTER DOWN
+                            onClick={() => {//Can not be onPointerDown
                                 onClickHandler(v);
                             }}
                         >
