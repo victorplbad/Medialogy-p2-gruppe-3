@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./TopBar.css";
-import { switchMenu, search, getVideoInfo, populateResults } from "../GlobalFunctions.tsx";
+import { switchMenu, doSearch } from "../GlobalFunctions.tsx";
 
 const TopBar: React.FC = () => {
     const [query, setQuery] = useState("");
@@ -32,24 +32,14 @@ const TopBar: React.FC = () => {
                         } else {
                             /*Suggest search terms?*/
                         }
-                    }}/*we might need a button too?*/
+                    }}
                 />
-                <SearchIcon />
-            </div>
+                <SearchIcon />{/*we might need to make this a button too?*/}
+            </div>  
         </header>
     );
 };
 export default TopBar;
-
-async function doSearch(query: string) {
-    const results = await search(query);
-    //console.log(results);
-    const vInfo = await getVideoInfo(results);
-    //console.log(vInfo);
-    populateResults(vInfo);
-    //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
-    switchMenu("search_results");
-}
 
 const GearIcon = () => (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"

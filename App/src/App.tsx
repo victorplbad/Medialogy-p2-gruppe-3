@@ -2,7 +2,7 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import './giga.css'
 import TopBar from "./components/TopBar";

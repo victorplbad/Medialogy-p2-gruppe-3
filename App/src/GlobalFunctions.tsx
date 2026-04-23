@@ -1,4 +1,3 @@
-import { act } from "react";
 import API_KEY from "./API_KEY";
 import type { Video } from "./VideoType";
 
@@ -34,6 +33,18 @@ export function overlayShow() {
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------Youtube API implementation---------------------------------------------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+export async function doSearch(query: string) {
+    const results = await search(query);
+    //console.log(results);
+    const vInfo = await getVideoInfo(results);
+    //console.log(vInfo);
+    populateResults(vInfo);
+    //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
+    switchMenu("search_results");
+}
+
 export async function search(query: string) {
     const reply = await fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&videoDuration=short&type=video&q=${encodeURIComponent(query + " #short")}&key=${API_KEY}`
@@ -52,7 +63,7 @@ export async function getVideoInfo(VideoIDs: string[]) {
 
     const data = await res.json();
 
-    const videos: Video[] = data.items.map((item: any) => ({
+    const videos: Video[] = data.items.map((item) => ({
         ID: item.id,
         title: item.snippet.title,
         thumbnail: item.snippet.thumbnails.high.url,
@@ -62,14 +73,9 @@ export async function getVideoInfo(VideoIDs: string[]) {
     return videos
 };
 
-function formatDuration(iso: string) {
-    const match = iso.match(/PT(\d+M)?(\d+S)?/);
-    const minutes = match?.[1]?.replace("M", "") || "0";
-    const seconds = match?.[2]?.replace("S", "") || "00";
-    return `${minutes}:${seconds.padStart(2, "0")}`;
-};
-
-let vHistory: string[] = [];
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------Search result menu filling--------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 export function populateResults(videos: Video[]) {
     const container = document.getElementById("resultContainer") as HTMLElement;
@@ -92,7 +98,7 @@ export function populateResults(videos: Video[]) {
         vDiv.setAttribute("class", "ThumbOverlay");
         vDiv.append(vTitle);
         vDiv.append(vDuration);
-        
+
         vOption.append(vImg);
         vOption.append(vDiv);
 
@@ -105,6 +111,27 @@ export function onClickHandler(videoID: string) {
     scrollPlayer(false);
     playVideo(videoID);
 }
+
+//function result(video: Video) {
+//    return (
+//        <div className="portrait search" onClick={() => onClickHandler(video.ID)}>
+//            <img src={video.thumbnail} />
+//            <div className="ThumbOverlay">
+//                <span className="title">{video.title}</span>
+//                <span className="duration">{video.duration}</span>
+//            </div>
+//        </div>
+//    )
+//}
+
+function formatDuration(iso: string) {
+    const match = iso.match(/PT(\d+M)?(\d+S)?/);
+    const minutes = match?.[1]?.replace("M", "") || "0";
+    const seconds = match?.[2]?.replace("S", "") || "00";
+    return `${minutes}:${seconds.padStart(2, "0")}`;
+};
+
+let vHistory: string[] = [];
 
 let activeContainer: HTMLElement = document.getElementById("vContainer1") as HTMLElement;
 let upperContainer: HTMLElement = document.getElementById("vContainer2") as HTMLElement;
@@ -120,6 +147,10 @@ export function playVideo(videoID: string) {
 }
 
 function scrollPlayer(down: boolean) {
+    if (activeContainer == null) activeContainer = document.getElementById("vContainer1") as HTMLElement;
+    if (upperContainer == null) upperContainer = document.getElementById("vContainer2") as HTMLElement;
+    if (lowerContainer == null) lowerContainer = document.getElementById("vContainer3") as HTMLElement;
+
     if (down) {
         //Move active elements down
         activeContainer.classList.add("down");
@@ -176,10 +207,6 @@ export function scrollHandler(event: React.WheelEvent) {
     if (scrolling) return;
     scrolling = true;
     setTimeout(() => { scrolling = false }, 500);
-
-    if (activeContainer == null) activeContainer = document.getElementById("vContainer1") as HTMLElement;
-    if (upperContainer == null) upperContainer = document.getElementById("vContainer2") as HTMLElement;
-    if (lowerContainer == null) lowerContainer = document.getElementById("vContainer3") as HTMLElement;
 
     if (event.deltaY > 0 && activeContainer.children.length === 1) {
         console.log("1");
