@@ -69,7 +69,7 @@ export async function getVideoInfo(VideoIDs: string[]) {
         duration: formatDuration(item.contentDetails.duration),
     }));
 
-    return videos
+    return videos;
 };
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
