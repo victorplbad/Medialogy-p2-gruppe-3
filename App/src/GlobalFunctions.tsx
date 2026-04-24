@@ -1,19 +1,6 @@
 import API_KEY from "./API_KEY";
 import type { Video } from "./VideoType";
 
-export function switchMenu(ID: string) {
-    if (ID === "settings") {
-        document.getElementById("searchbar")?.classList.add("hide");
-    } else {
-        document.getElementById("searchbar")?.classList.remove("hide");
-    }
-    const elements = Array.from(document.getElementsByClassName("menuItem"));
-    for (const e of elements) {
-        e.classList.add("remove");
-    }
-    document.getElementById(ID)?.classList.remove("remove");
-}
-
 export function overlayToggle() {
     const overlay = document.getElementsByClassName("overlay")[0];
     if (overlay.classList.contains("show")) overlayHide();
@@ -30,10 +17,22 @@ export function overlayShow() {
     document.getElementsByClassName("weirdButton")[0].innerHTML = "Close overlay";
 }
 
+export function switchMenu(ID: string) {
+    if (ID === "settings") {
+        document.getElementById("searchbar")?.classList.add("hide");
+    } else {
+        document.getElementById("searchbar")?.classList.remove("hide");
+    }
+    const elements = Array.from(document.getElementsByClassName("menuItem"));
+    for (const e of elements) {
+        e.classList.add("remove");
+    }
+    document.getElementById(ID)?.classList.remove("remove");
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------Youtube API implementation---------------------------------------------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
 
 export async function doSearch(query: string) {
     const results = await search(query);
@@ -44,7 +43,6 @@ export async function doSearch(query: string) {
     //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
     switchMenu("search_results");
 }
-
 export async function search(query: string) {
     const reply = await fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&videoDuration=short&type=video&q=${encodeURIComponent(query + " #short")}&key=${API_KEY}`
@@ -55,7 +53,6 @@ export async function search(query: string) {
     //console.log(data.items);
     return data.items.map((item) => { return item.id.videoId });
 };
-
 export async function getVideoInfo(VideoIDs: string[]) {
     const res = await fetch(
         `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${VideoIDs.join(",")}&key=${API_KEY}`
