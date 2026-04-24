@@ -1,0 +1,46 @@
+/* SideWave.css */
+.wave-container {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 60px; /* Adjust thickness */
+    z-index: 1; /* Keep it above background but below content */
+    pointer-events: none; /* Prevents waves from blocking clicks */
+    overflow: hidden;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+    transform: scaleX(-1); /* Flips the wave for the right side */
+}
+
+.wave-svg {
+    height: 200%; /* Double height for seamless loop */
+    width: 100%;
+    fill: rgba(0, 150, 255, 0.3); /* Change to your brand color */
+    animation: waveFlow 4s linear infinite;
+}
+
+.wave-path-delayed {
+    fill: rgba(0, 150, 255, 0.15);
+    animation: waveFlow 7s linear infinite reverse;
+}
+
+@keyframes waveFlow {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-50%);
+    }
+}
+
+/* Ensure content stays above waves */
+.App h1, .VideoList, .overlay {
+    position: relative;
+    z-index: 2;
+}

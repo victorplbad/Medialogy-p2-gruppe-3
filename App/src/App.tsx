@@ -4,6 +4,7 @@
 // import heroImg from './assets/hero.png'
 import { useRef } from 'react';
 
+
 import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
@@ -80,6 +81,8 @@ function App() {
                 </div>
             </div>
         </div>
+        
+        
     )
 }
 
