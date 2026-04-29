@@ -132,9 +132,9 @@ function formatDuration(iso: string) {
 
 let vHistory: string[] = [];
 
-let activeContainer: HTMLElement = document.getElementById("vContainer1") as HTMLElement;
-let upperContainer: HTMLElement = document.getElementById("vContainer2") as HTMLElement;
-let lowerContainer: HTMLElement = document.getElementById("vContainer3") as HTMLElement;
+let activeContainer: HTMLElement;
+let upperContainer: HTMLElement;
+let lowerContainer: HTMLElement;
 
 export function playVideo(videoID: string) {
     overlayHide();
