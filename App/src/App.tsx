@@ -90,13 +90,7 @@ function App() {
             */}
 
             <div className="overlay show">
-                <button aria-label="Talk" onClick={() => {
-                    fetch("http://localhost:3000/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/JSON" },
-                        body: JSON.stringify({ "UID": UID, "time": Date.now() }),
-                    })
-                }}>
+                <button aria-label="Talk" onClick={storeData}>
                     TALK TO THE FUNNY SERVER
                 </button>
                 <TopBar />
@@ -136,19 +130,27 @@ function App() {
             </div>
         </div>
     )
+
+    async function storeData() {
+        fetch("http://localhost:3000/", {
+            method: "POST",
+            headers: { "Content-Type": "application/JSON" },
+            body: JSON.stringify({ "UID": UID, "time": Date.now() }),
+        });
+    }
 }
 
 export default App
-
-async function getUID(): string {
+function getUID(): string {
     let UID = getCookie("UID");
     if (UID === "") {
         UID = Math.floor(Math.random() * 100000000).toString();
         //const response = await fetch("http://localhost:3000/");
         //const json = await response.json();
-        //console.log(json);//Might get UID from server with this to ensure uniqueness?
+        //console.log(json);//Might get UID from server to ensure uniqueness? would need to make this function async or something?
     }
     setCookie("UID", UID);
+    console.log(UID);
     return UID;
 }
 

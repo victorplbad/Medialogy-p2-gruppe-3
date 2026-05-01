@@ -1,2 +1,2 @@
 node server
-::pause
+pause
