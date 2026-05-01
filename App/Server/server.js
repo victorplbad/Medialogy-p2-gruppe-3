@@ -46,4 +46,14 @@ server.listen(3000, '127.0.0.1', () => {
 
 
 
-
+//HTTP request types
+//https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods
+//CONNECT
+//DELETE
+//GET
+//HEAD
+//OPTIONS
+//PATCH
+//POST
+//PUT
+//TRACE
