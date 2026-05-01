@@ -141,11 +141,11 @@ function getUID(): string {
     return UID;
 }
 
-function setCookie(cname: string, cvalue: string, exdays = 14) {
+function setCookie(name: string, value: string, expirationDays = 14) {
     const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
     const expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
 function getCookie(name: string): string {
