@@ -90,7 +90,6 @@ function App() {
             */}
 
             <div className="overlay show">
-                {/*<p>{UID}</p>*/}
                 <TopBar />
                 <div id="settings" className="menuItem remove">
                     <PageSettings />
