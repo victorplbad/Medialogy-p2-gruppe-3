@@ -20,6 +20,7 @@ const VideoIDs = [
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
+    const UID = getUID();
     const touchStartX = useRef<number | null>(null);
     const touchStartY = useRef<number | null>(null);
 
@@ -89,6 +90,7 @@ function App() {
             */}
 
             <div className="overlay show">
+                <p>{UID}</p>
                 <TopBar />
                 <div id="settings" className="menuItem remove">
                     <PageSettings />
@@ -129,3 +131,32 @@ function App() {
 }
 
 export default App
+
+function getUID(): string {
+    let UID = getCookie("UID");
+    if (UID === "") {
+        UID = Math.floor(Math.random() * 1000000).toString();
+    }
+    setCookie("UID", UID);
+    return UID;
+}
+
+function setCookie(cname: string, cvalue: string, exdays = 14) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(name: string): string {
+    name += "=";
+    const dCookie = decodeURIComponent(document.cookie);
+    const cookies = dCookie.split(";");
+    for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.indexOf(name) == 0) {
+            return cookie.substring(name.length);
+        }
+    }
+    return "";
+}
