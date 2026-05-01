@@ -140,10 +140,13 @@ function App() {
 
 export default App
 
-function getUID(): string {
+async function getUID(): string {
     let UID = getCookie("UID");
     if (UID === "") {
         UID = Math.floor(Math.random() * 100000000).toString();
+        //const response = await fetch("http://localhost:3000/");
+        //const json = await response.json();
+        //console.log(json);//Might get UID from server with this to ensure uniqueness?
     }
     setCookie("UID", UID);
     return UID;

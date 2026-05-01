@@ -20,14 +20,19 @@ const server = createServer((req, res) => {
 			LogData(data);
 		}
 	});
-	
-	
+
 	res.writeHead(200, {				//Access control to tell browsers they are allowed to make requests even if their main page isnt from same domain
-		'Content-Type': 'text/plain' , 
+		'Content-Type': 'text/plain',
 		'Access-Control-Allow-Origin': '*',
 		'Access-Control-Allow-Headers': '*',
 	});
-	res.end('Hello World!\n');
+
+	if (req.method === "GET") {//Add some autoincrementing of IDs instead of random?
+		res.end(JSON.stringify({ UID: Math.floor(Math.random() * 100000000).toString() }));
+	} else {
+		res.end();
+	}
+	console.log(req.method);
 });
 
 function LogData(Json){					//Log the received data to a Permanent file
@@ -38,3 +43,7 @@ function LogData(Json){					//Log the received data to a Permanent file
 server.listen(3000, '127.0.0.1', () => {
 	console.log('Listening on 127.0.0.1:3000');
 });
+
+
+
+
