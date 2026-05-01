@@ -135,7 +135,7 @@ export default App
 function getUID(): string {
     let UID = getCookie("UID");
     if (UID === "") {
-        UID = Math.floor(Math.random() * 1000000).toString();
+        UID = Math.floor(Math.random() * 100000000).toString();
     }
     setCookie("UID", UID);
     return UID;
