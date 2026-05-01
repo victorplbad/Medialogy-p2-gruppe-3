@@ -90,6 +90,15 @@ function App() {
             */}
 
             <div className="overlay show">
+                <button aria-label="Talk" onClick={() => {
+                    fetch("http://localhost:3000/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/JSON" },
+                        body: JSON.stringify({ newText: "newText" }),
+                    })
+                }}>
+                    TALK TO THE FUNNY SERVER
+                </button>
                 <TopBar />
                 <div id="settings" className="menuItem remove">
                     <PageSettings />
