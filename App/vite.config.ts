@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,10 +9,13 @@ export default defineConfig({
     host: true,
     port: 5173
   },
+  preview: {
+    allowedHosts: true
+  },
   plugins: [
     react(),
     babel({ presets: [reactCompilerPreset()] }),
-	VitePWA({
+	  VitePWA({
       registerType: 'autoUpdate',
       manifest: {
         name: 'My App',

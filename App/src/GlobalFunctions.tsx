@@ -52,7 +52,7 @@ export async function search(query: string) {
     const data = await reply.json();
     //console.log(data.items.map((item) => { return item.id.videoId }));
     //console.log(data.items);
-    return data.items.map((item) => { return item.id.videoId });
+    return data.items.map((item: any) => { return item.id.videoId });
 };
 
 export async function getVideoInfo(VideoIDs: string[]) {
@@ -62,7 +62,7 @@ export async function getVideoInfo(VideoIDs: string[]) {
 
     const data = await res.json();
 
-    const videos: Video[] = data.items.map((item) => ({
+    const videos: Video[] = data.items.map((item: any) => ({
         ID: item.id,
         title: item.snippet.title,
         thumbnail: item.snippet.thumbnails.high.url,
