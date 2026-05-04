@@ -14,7 +14,7 @@ const GrayscaleSlider = () => {
       setGrayscale(Number(e.target.value));
     },
     []
-  );
+  );  
   return (
     <div className="grayscale-widget">
       <h4>Grey scale: {grayscale}%</h4> {/* name of slider */}
