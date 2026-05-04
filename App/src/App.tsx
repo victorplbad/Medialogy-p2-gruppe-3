@@ -10,6 +10,7 @@ import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import VideoList from "./VideoList";
 import { overlayToggle, overlayShow, overlayHide } from './GlobalFunctions';
+import { Component } from 'lucide-react';
 
 function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
