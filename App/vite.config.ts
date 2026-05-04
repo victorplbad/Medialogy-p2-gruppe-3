@@ -10,6 +10,32 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    babel({ presets: [reactCompilerPreset()] })
+    babel({ presets: [reactCompilerPreset()] }),
+	VitePWA({
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'My App',
+        short_name: 'App',
+        description: 'My React PWA',
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          {
+            src: '/icon192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/icon512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
   ],
 })
+
+

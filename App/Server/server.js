@@ -15,7 +15,7 @@ const server = createServer((req, res) => {
 			console.error('The connection was terminated while the message was still being sent');
 			return;
 		}
-		if(body.length > 0){
+		if(body.length > 0 && req.method === "POST"){
 			body = Buffer.concat(body).toString();
 			let data = JSON.parse(body);
 			console.log(data);
@@ -44,13 +44,13 @@ server.listen(3000, '127.0.0.1', () => {
 
 function LogData(Json) {				//Log the received data to a Permanent file
 	const fileString = Json.UID + "," + Date(json.time) + "\n";
-	if (fs.existsSync(outputFile)) fs.appendFileSync(outputFile, fileString, 'utf8');
-	//else {
-	//	Object.keys(json).forEach((key) => {
-	//		fs.appendFileSync(outputFile, key + ",", 'utf8');
-	//	});
-	//	fs.appendFileSync(outputFile, "\n", 'utf8');
-	//}
+	if (!fs.existsSync(outputFile)) {
+		Object.keys(json).forEach((key) => {
+			fs.appendFileSync(outputFile, key + ",", 'utf8');
+		});
+		fs.appendFileSync(outputFile, "\n", 'utf8');
+	}
+	fs.appendFileSync(outputFile, fileString, 'utf8');
 }
 
 //const dictionary = {
