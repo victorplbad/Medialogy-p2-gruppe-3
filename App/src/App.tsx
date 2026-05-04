@@ -7,18 +7,18 @@ import React, { useRef } from 'react';
 import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
-import { overlayToggle, overlayShow, overlayHide, onClickHandler, scrollHandler } from './GlobalFunctions';
+import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './GlobalFunctions';
 
-const VideoIDs = [
-    "O3eYxjuYls4",
-    "Uhgoqj2Aa6Q",
-    "q7CgRt_-trM",
-    "vfuVrjPZPr4",
-    "rUWVxJU77RU",
-    "O3eYxjuYls4",
-];
+// const VideoIDs = [
+//     "O3eYxjuYls4",
+//     "Uhgoqj2Aa6Q",
+//     "q7CgRt_-trM",
+//     "vfuVrjPZPr4",
+//     "rUWVxJU77RU",
+//     "O3eYxjuYls4",
+// ];
 
-function App() {
+ function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
     const UID = getUID();
     const touchStartX = useRef<number | null>(null);
@@ -120,18 +120,7 @@ function App() {
 
             {/*Template elements*/}
             <div id="selector" className="remove">
-                <div className="grid">
-                    {VideoIDs.map((v, k) => (
-                        <div
-                            key={k}
-                            className="portrait"
-                            onClick={() => {//Can not be onPointerDown
-                                onClickHandler(v);
-                            }}
-                        >
-                            <span>K: {k} V: {v}</span>
-                        </div>
-                    ))}
+                <div id="lootboxContainer" className="grid">
                 </div>
             </div>
         </div>

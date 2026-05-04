@@ -34,15 +34,19 @@ export function switchMenu(ID: string) {
 /*----------------------------Youtube API implementation---------------------------------------------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+let vInfo: Video[];
+
 export async function doSearch(query: string) {
     const results = await search(query);
     //console.log(results);
-    const vInfo = await getVideoInfo(results);
+    vInfo = await getVideoInfo(results);
     //console.log(vInfo);
     populateResults(vInfo);
     //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
     switchMenu("search_results");
 }
+
+
 
 export async function search(query: string) {
     const reply = await fetch(
@@ -199,6 +203,7 @@ export function showVideoSelector() {
     iFrame.classList.add("remove");
 
     activeContainer.appendChild(selector);
+    PowerfullAlgorime();
 }
 
 let scrolling: boolean = false;
@@ -224,3 +229,86 @@ export function scrollHandler(event: React.WheelEvent) {
         showVideoSelector();
     }
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------algorime result lootbox---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// function PowerfullAlgorime() {
+
+// videos.forEach((vInfo) => {
+//         /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
+//         const vOption = document.createElement("div");
+//         vOption.addEventListener("click", () => { onClickHandler(video.ID) });
+//         vOption.setAttribute("class", "portrait search");
+//         const vImg = document.createElement("img");
+//         vImg.setAttribute("src", video.thumbnail);
+//         const vTitle = document.createElement("span");
+//         vTitle.setAttribute("class", "title");
+//         vTitle.innerHTML = video.title;
+//         const vDuration = document.createElement("span");
+//         vDuration.setAttribute("class", "duration");
+//         vDuration.innerHTML = video.duration;
+//         const vDiv = document.createElement("div");
+//         vDiv.setAttribute("class", "ThumbOverlay");
+//         vDiv.append(vTitle);
+//         vDiv.append(vDuration);
+
+//         vOption.append(vImg);
+//         vOption.append(vDiv);
+
+//         container.append(vOption);
+//     })
+//    
+
+// {vInfo.map((v, k) => (
+//                         <div
+//                             key={k}
+//                             className="portrait"
+//                             onClick={() => {//Can not be onPointerDown
+//                                 onClickHandler(v);
+//                             }}
+//                         >
+//                             <span>K: {k} V: {v}</span>
+//                         </div>
+//                     ))}
+
+// }
+let y = 0;
+export async function PowerfullAlgorime() {
+    const container = document.getElementById("lootboxContainer") as HTMLElement;
+    container.innerHTML = "";
+    
+    if (vInfo.length - y < 6){
+        await doSearch(vInfo[0].title)
+        y = 0;
+    }
+   
+    
+    for ( let i = 1; i <= 6; i++, y++){
+        const video = vInfo[y];
+
+        const vOption = document.createElement("div");
+        vOption.addEventListener("click", () => { onClickHandler(video.ID) });
+        vOption.setAttribute("class", "portrait search");
+        const vImg = document.createElement("img");
+        vImg.setAttribute("src", video.thumbnail);
+        const vTitle = document.createElement("span");
+        vTitle.setAttribute("class", "title");
+        vTitle.innerHTML = video.title;
+        const vDuration = document.createElement("span");
+        vDuration.setAttribute("class", "duration");
+        vDuration.innerHTML = video.duration;
+        const vDiv = document.createElement("div");
+        vDiv.setAttribute("class", "ThumbOverlay");
+        vDiv.append(vTitle);
+        vDiv.append(vDuration);
+
+        vOption.append(vImg);
+        vOption.append(vDiv);
+
+        container.append(vOption);
+    }
+   
+   
+};
