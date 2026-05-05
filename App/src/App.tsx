@@ -18,12 +18,12 @@ function App() {
     const [shorts, uShorts] = useState("");
     const [timeToday, uTimeToday] = useState(0);
 
-    setTimeout(() => {
+    function updateStats() {
         uTime(sessionTime + 1000);
         uShorts(localStorage.getItem(pal.TodayString() + "vNum") || "0");
         uTimeToday(pal.DayTime());
-    }, 1000)
-
+    }
+    setTimeout(updateStats, 1000);
 
     // Touch start
     const TouchStart = (e: React.TouchEvent) => {
