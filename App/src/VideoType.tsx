@@ -1,6 +1,6 @@
 export type Video = {
     ID: string;
     title: string;
-    duration: number;
+    durationISO: string;
     thumbnail: string;
 };

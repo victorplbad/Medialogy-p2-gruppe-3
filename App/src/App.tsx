@@ -90,15 +90,6 @@ import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './Global
             */}
 
             <div className="overlay show">
-                <button aria-label="Talk" onClick={() => {
-                    fetch("http://localhost:3000/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/JSON" },
-                        body: JSON.stringify({ "UID": UID, "time": Date.now() }),
-                    })
-                }}>
-                    TALK TO THE FUNNY SERVER
-                </button>
                 <TopBar />
                 <div id="settings" className="menuItem remove">
                     <PageSettings />

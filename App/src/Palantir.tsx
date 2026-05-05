@@ -3,8 +3,9 @@ function LogWatchTime(startTime: Date, videoDuration: number) {
     const now = new Date();
     const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
 
-    const timeWatched = now.getTime() - startTime.getTime();
-    const percentWatched = timeWatched / 1000 / videoDuration;
+    const timeWatched: number = now.getTime() - startTime.getTime();
+    const percentWatched = timeWatched / (videoDuration * 1000);
+    console.log(timeWatched, videoDuration, percentWatched);
     const timeWatchedToday = parseInt(localStorage.getItem(todayString) || "0") || 0;
     const vNum = parseInt(localStorage.getItem(todayString + "vNum") || "0") || 0;
     const smol = {

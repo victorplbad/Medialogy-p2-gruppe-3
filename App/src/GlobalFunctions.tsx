@@ -18,7 +18,7 @@ export function overlayShow() {
     document.getElementsByClassName("weirdButton")[0].innerHTML = "Close overlay";
 
     if (videoStart != null) {
-        pal.LogWatchTime(videoStart, currentVideo.duration);
+        pal.LogWatchTime(videoStart, durationSeconds(currentVideo.durationISO));
         videoStart = null;
     }
 }
@@ -44,15 +44,11 @@ let vInfo: Video[];
 
 export async function doSearch(query: string) {
     const results = await search(query);
-    //console.log(results);
     vInfo = await getVideoInfo(results);
-    //console.log(vInfo);
     populateResults(vInfo);
     //search(event.currentTarget.value).then((results) => { getVideoInfo(results));
     switchMenu("search_results");
 }
-
-
 
 export async function search(query: string) {
     const reply = await fetch(
@@ -60,8 +56,6 @@ export async function search(query: string) {
     );
     
     const data = await reply.json();
-    //console.log(data.items.map((item) => { return item.id.videoId }));
-    //console.log(data.items);
     return data.items.map((item: any) => { return item.id.videoId });
 };
 
@@ -76,7 +70,7 @@ export async function getVideoInfo(VideoIDs: string[]) {
         ID: item.id,
         title: item.snippet.title,
         thumbnail: item.snippet.thumbnails.high.url,
-        duration: formatDuration(item.contentDetails.duration),
+        durationISO: item.contentDetails.duration,
     }));
 
     return videos;
@@ -90,29 +84,7 @@ export function populateResults(videos: Video[]) {
     const container = document.getElementById("resultContainer") as HTMLElement;
     container.innerHTML = "";
 
-    videos.forEach((video) => {
-        /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
-        const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { onClickHandler(video) });
-        vOption.setAttribute("class", "portrait search");
-        const vImg = document.createElement("img");
-        vImg.setAttribute("src", video.thumbnail);
-        const vTitle = document.createElement("span");
-        vTitle.setAttribute("class", "title");
-        vTitle.innerHTML = video.title;
-        const vDuration = document.createElement("span");
-        vDuration.setAttribute("class", "duration");
-        vDuration.innerHTML = formatDuration(video.duration.toString());
-        const vDiv = document.createElement("div");
-        vDiv.setAttribute("class", "ThumbOverlay");
-        vDiv.append(vTitle);
-        vDiv.append(vDuration);
-
-        vOption.append(vImg);
-        vOption.append(vDiv);
-
-        container.append(vOption);
-    })
+    videos.forEach((video) => { thumbnailElement(video, container) })
 };
 
 let currentVideo: Video;
@@ -122,6 +94,30 @@ export function onClickHandler(video: Video) {
     vHistory.push(video.ID);
     scrollPlayer(false);
     playVideo(video.ID);
+}
+
+function thumbnailElement(video: Video, container: HTMLElement) {
+    /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
+    const vOption = document.createElement("div");
+    vOption.addEventListener("click", () => { onClickHandler(video) });
+    vOption.setAttribute("class", "portrait search");
+    const vImg = document.createElement("img");
+    vImg.setAttribute("src", video.thumbnail);
+    const vTitle = document.createElement("span");
+    vTitle.setAttribute("class", "title");
+    vTitle.innerHTML = video.title;
+    const vDuration = document.createElement("span");
+    vDuration.setAttribute("class", "duration");
+    vDuration.innerHTML = formatDuration(video.durationISO);
+    const vDiv = document.createElement("div");
+    vDiv.setAttribute("class", "ThumbOverlay");
+    vDiv.append(vTitle);
+    vDiv.append(vDuration);
+
+    vOption.append(vImg);
+    vOption.append(vDiv);
+
+    container.append(vOption);
 }
 
 //function result(video: Video) {
@@ -142,6 +138,13 @@ function formatDuration(iso: string) {
     const seconds = match?.[2]?.replace("S", "") || "00";
     return `${minutes}:${seconds.padStart(2, "0")}`;
 };
+
+function durationSeconds(iso: string) {
+    const match = iso.match(/PT(\d+M)?(\d+S)?/);
+    let seconds = parseInt(match?.[1]?.replace("M", "") || "0") * 60;
+    seconds += parseInt(match?.[2]?.replace("S", "") || "00");
+    return seconds;
+}
 
 let vHistory: string[] = [];
 
@@ -196,7 +199,7 @@ function scrollPlayer(down: boolean) {
     }
 
     if (videoStart != null) {
-        pal.LogWatchTime(videoStart, currentVideo.duration);
+        pal.LogWatchTime(videoStart, durationSeconds(currentVideo.durationISO));
         videoStart = null;
     }
 }
@@ -229,17 +232,14 @@ export function scrollHandler(event: React.WheelEvent) {
     setTimeout(() => { scrolling = false }, 500);
 
     if (event.deltaY > 0 && activeContainer.children.length === 1) {
-        console.log("1");
         scrollPlayer(false);
         showVideoSelector();
     } else if (event.deltaY < 0 && vHistory.length > 1) {
-        console.log("2");
         vHistory.pop()
         scrollPlayer(true);
         const video = vHistory[vHistory.length - 1];
         if (video !== undefined) playVideo(video);
     } else if (event.deltaY !== 0) {
-        console.log("3");
         vHistory = [];
         scrollPlayer(event.deltaY < 0);
         showVideoSelector();
@@ -299,32 +299,10 @@ export async function PowerfullAlgorime() {
         await doSearch(vInfo[0].title)
         y = 0;
     }
-   
     
     for ( let i = 1; i <= 6; i++, y++){
         const video = vInfo[y];
 
-        const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { onClickHandler(video.ID) });
-        vOption.setAttribute("class", "portrait search");
-        const vImg = document.createElement("img");
-        vImg.setAttribute("src", video.thumbnail);
-        const vTitle = document.createElement("span");
-        vTitle.setAttribute("class", "title");
-        vTitle.innerHTML = video.title;
-        const vDuration = document.createElement("span");
-        vDuration.setAttribute("class", "duration");
-        vDuration.innerHTML = video.duration;
-        const vDiv = document.createElement("div");
-        vDiv.setAttribute("class", "ThumbOverlay");
-        vDiv.append(vTitle);
-        vDiv.append(vDuration);
-
-        vOption.append(vImg);
-        vOption.append(vDiv);
-
-        container.append(vOption);
+        thumbnailElement(video, container);
     }
-   
-   
 };
