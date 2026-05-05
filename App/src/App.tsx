@@ -2,27 +2,28 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 import './giga.css'
 import TopBar from "./components/TopBar";
 import PageSettings from "./PageSettings";
 import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './GlobalFunctions';
+import pal from "./Palantir";
 
-// const VideoIDs = [
-//     "O3eYxjuYls4",
-//     "Uhgoqj2Aa6Q",
-//     "q7CgRt_-trM",
-//     "vfuVrjPZPr4",
-//     "rUWVxJU77RU",
-//     "O3eYxjuYls4",
-// ];
-
- function App() {
+function App() {
     const hasTouch = "onTouchStart" in window || navigator.maxTouchPoints > 0;
-    const UID = getUID();
     const touchStartX = useRef<number | null>(null);
     const touchStartY = useRef<number | null>(null);
+    const [sessionTime, uTime] = useState(0);
+    const [shorts, uShorts] = useState("");
+    const [timeToday, uTimeToday] = useState(0);
+
+    setTimeout(() => {
+        uTime(sessionTime + 1000);
+        uShorts(localStorage.getItem(pal.TodayString() + "vNum") || "0");
+        uTimeToday(pal.DayTime());
+    }, 1000)
+
 
     // Touch start
     const TouchStart = (e: React.TouchEvent) => {
@@ -35,7 +36,6 @@ import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './Global
         if (touchStartX.current === null || touchStartY.current === null) return;
 
         const deltaX = touchStartX.current - e.changedTouches[0].clientX;
-        //const deltaY = touchStartY.current - e.changedTouches[0].clientY;
 
         if (deltaX > 50) {
             overlayHide();
@@ -81,14 +81,10 @@ import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './Global
                     />
                 </div>
             </div>
-            {/* PAGE 0 */}
-            
-                
             {/*
                 Above here should be the video player and new video selection
                 Below here should be the menu/overlay functions
             */}
-
             <div className="overlay show">
                 <TopBar />
                 <div id="settings" className="menuItem remove">
@@ -96,19 +92,18 @@ import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './Global
                 </div>
                 <div id="stats" className="menuItem">
                     <div />
-                    <p>Du har brugt x timer på shorts denne uge</p>
-                    <p>PLACEHOLDER</p>
+                    <h4>i denne session har du været her {sessionTime / 1000} sekunder</h4>
+                    <h4>Du har brugt: {timeToday} sekunder på shorts idag</h4>
+                    <h4>Du har set {shorts} shorts idag</h4>
                 </div>
                 <div id="search_results" className="menuItem remove">
                     <div className="search_results">
                         <div id="resultContainer" className="grid search">
                         </div>
                     </div>
-                    <div className="spacer100"/>
+                    <div className="spacer100" />
                 </div>
             </div>
-
-
             {/*Template elements*/}
             <div id="selector" className="remove">
                 <div id="lootboxContainer" className="grid">
@@ -119,32 +114,3 @@ import { overlayToggle, overlayShow, overlayHide, scrollHandler } from './Global
 }
 
 export default App
-
-function getUID(): string {
-    let UID = getCookie("UID");
-    if (UID === "") {
-        UID = Math.floor(Math.random() * 100000000).toString();
-    }
-    setCookie("UID", UID);
-    return UID;
-}
-
-function setCookie(name: string, value: string, expirationDays = 14) {
-    const d = new Date();
-    d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-
-function getCookie(name: string): string {
-    name += "=";
-    const dCookie = decodeURIComponent(document.cookie);
-    const cookies = dCookie.split(";");
-    for (let cookie of cookies) {
-        cookie = cookie.trim();
-        if (cookie.indexOf(name) == 0) {
-            return cookie.substring(name.length);
-        }
-    }
-    return "";
-}

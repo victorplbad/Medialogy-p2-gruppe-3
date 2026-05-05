@@ -35,8 +35,37 @@ function LogSession() {
     localStorage.setItem(todayString + "s" + sNum, sessionTime.toString());
 }
 
+function DayTime() {
+    const now = new Date();
+    const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+
+    return parseInt(localStorage.getItem(todayString) || "0") / 1000;
+}
+
+function SesTime() {
+    const now = new Date();
+    const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+
+    //for (let i = 0; i < localStorage.length; i++) {
+    //    const key = localStorage.key(i);
+    //    if (key === todayString + "sNum") {
+    //        const otherKey = localStorage.key(i - 1);
+    //        return localStorage.getItem
+    //    }
+    //}
+}
+
+function TodayString() {
+    const now = new Date();
+    return now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+}
+
+
 const pal = {
     LogWatchTime,
+    DayTime,
+
+    TodayString
 }
 
 export default pal;

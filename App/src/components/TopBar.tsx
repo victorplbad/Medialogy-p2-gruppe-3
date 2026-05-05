@@ -4,7 +4,7 @@ import { switchMenu, doSearch } from "../GlobalFunctions.tsx";
 
 const TopBar: React.FC = () => {
     const [query, setQuery] = useState("");
-    
+
     return (
         <header className="topbar">
             {/* Gear ikon — venstre */}
@@ -35,7 +35,7 @@ const TopBar: React.FC = () => {
                     }}
                 />
                 <SearchIcon />{/*we might need to make this a button too?*/}
-            </div>  
+            </div>
         </header>
     );
 };

@@ -54,7 +54,7 @@ export async function search(query: string) {
     const reply = await fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&videoDuration=short&type=video&q=${encodeURIComponent(query + " #short")}&key=${API_KEY}`
     );
-    
+
     const data = await reply.json();
     return data.items.map((item: any) => { return item.id.videoId });
 };
@@ -294,13 +294,13 @@ let y = 0;
 export async function PowerfullAlgorime() {
     const container = document.getElementById("lootboxContainer") as HTMLElement;
     container.innerHTML = "";
-    
-    if (vInfo.length - y < 6){
+
+    if (vInfo.length - y < 6) {
         await doSearch(vInfo[0].title)
         y = 0;
     }
-    
-    for ( let i = 1; i <= 6; i++, y++){
+
+    for (let i = 1; i <= 6; i++, y++) {
         const video = vInfo[y];
 
         thumbnailElement(video, container);
