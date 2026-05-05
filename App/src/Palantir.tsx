@@ -42,17 +42,57 @@ function DayTime() {
     return parseInt(localStorage.getItem(todayString) || "0") / 1000;
 }
 
-function SesTime() {
-    const now = new Date();
-    const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+interface dataExport {
+    [date: string]: DaySummary
+}
 
-    //for (let i = 0; i < localStorage.length; i++) {
-    //    const key = localStorage.key(i);
-    //    if (key === todayString + "sNum") {
-    //        const otherKey = localStorage.key(i - 1);
-    //        return localStorage.getItem
-    //    }
-    //}
+function exportData() {
+    const object: dataExport = {};
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i) || "";
+        const regex = /[a-z]+/gid.exec(key);
+        let date = key
+        if (regex !== null) date = key.substring(0, regex.index)
+
+        console.log(object[date]);
+        if (object[date] === undefined) object[date] = {
+            sessionTimes: [],
+            videoWatchTimes: [],
+            videoProgress: [],
+        };
+
+        console.log(object);
+        if (regex === null) { //This is a day watch time summary
+            object[date].date = key
+            object[date].totalWatchTime = parseInt(localStorage.getItem(key) || "");
+        } else if (regex[0] == "v") {
+            const JSon = JSON.parse(localStorage.getItem(key) || "{}");
+            object[date].videoWatchTimes.push(JSon.watchTime)
+            object[date].videoProgress.push(JSon.progress)
+        } else if (regex[0] == "vNum") {
+            object[date].totalVideos = parseInt(localStorage.getItem(key) || "");
+        } else if (regex[0] == "s") {
+            object[date].sessionTimes.push(parseInt(localStorage.getItem(key) || ""));
+        } else if (regex[0] == "sNum") {
+            object[date].totalSessions = parseInt(localStorage.getItem(key) || "");
+        }
+    }
+
+    const JSonString = JSON.stringify(object);
+    navigator.clipboard.writeText(JSonString);
+
+    alert(JSonString);
+}
+
+type DaySummary = {
+    date?: string
+    totalWatchTime?: number,
+    totalVideos?: number,
+    totalSessions?: number,
+    sessionTimes: number[],
+    videoWatchTimes: number[],
+    videoProgress: number[],
 }
 
 function TodayString() {
@@ -60,11 +100,11 @@ function TodayString() {
     return now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
 }
 
-
 const pal = {
     LogWatchTime,
     DayTime,
 
+    exportData,
     TodayString
 }
 

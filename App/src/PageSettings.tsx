@@ -1,5 +1,6 @@
 import './giga.css';
 import GrayscaleSlider from "./components/GrayscaleSlider";
+import pal from "./Palantir";
 
 function PageSettings() {
     return (
@@ -25,6 +26,8 @@ function PageSettings() {
                     (hiden)
                     thisTestMail@mail.com <button className="button buttonRed">logout</button>
                 </p>
+
+                <button className="button buttonRed" onClick={pal.exportData}>Export data</button>
             </div>
         </div> // needed for style baground
     );
