@@ -81,24 +81,11 @@ function App() {
                     />
                 </div>
             </div>
-            {/* PAGE 0 */}
-            
-                
             {/*
                 Above here should be the video player and new video selection
                 Below here should be the menu/overlay functions
             */}
-
             <div className="overlay show">
-                <button aria-label="Talk" onClick={() => {
-                    fetch("http://localhost:3000/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/JSON" },
-                        body: JSON.stringify({ "UID": UID, "time": Date.now() }),
-                    })
-                }}>
-                    TALK TO THE FUNNY SERVER
-                </button>
                 <TopBar />
                 <div id="settings" className="menuItem remove">
                     <PageSettings />
@@ -116,8 +103,6 @@ function App() {
                     <div className="spacer100"/>
                 </div>
             </div>
-
-
             {/*Template elements*/}
             <div id="selector" className="remove">
                 <div className="grid">
@@ -126,7 +111,6 @@ function App() {
                             key={k}
                             className="portrait"
                             onClick={() => {//Can not be onPointerDown
-                                onClickHandler(v);
                             }}
                         >
                             <span>K: {k} V: {v}</span>

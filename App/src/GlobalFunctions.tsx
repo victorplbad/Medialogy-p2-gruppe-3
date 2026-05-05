@@ -1,5 +1,6 @@
 import API_KEY from "./API_KEY";
 import type { Video } from "./VideoType";
+import pal from "./Palantir";
 
 export function overlayToggle() {
     const overlay = document.getElementsByClassName("overlay")[0];
@@ -15,6 +16,11 @@ export function overlayHide() {
 export function overlayShow() {
     document.getElementsByClassName("overlay")[0].classList.add("show");
     document.getElementsByClassName("weirdButton")[0].innerHTML = "Close overlay";
+
+    if (videoStart != null) {
+        pal.LogWatchTime(videoStart, currentVideo.duration);
+        videoStart = null;
+    }
 }
 
 export function switchMenu(ID: string) {
@@ -52,7 +58,7 @@ export async function search(query: string) {
     const data = await reply.json();
     //console.log(data.items.map((item) => { return item.id.videoId }));
     //console.log(data.items);
-    return data.items.map((item) => { return item.id.videoId });
+    return data.items.map((item: any) => { return item.id.videoId });
 };
 
 export async function getVideoInfo(VideoIDs: string[]) {
@@ -62,7 +68,7 @@ export async function getVideoInfo(VideoIDs: string[]) {
 
     const data = await res.json();
 
-    const videos: Video[] = data.items.map((item) => ({
+    const videos: Video[] = data.items.map((item: any) => ({
         ID: item.id,
         title: item.snippet.title,
         thumbnail: item.snippet.thumbnails.high.url,
@@ -83,7 +89,7 @@ export function populateResults(videos: Video[]) {
     videos.forEach((video) => {
         /*HAS to be class and not classname because here we are dealing with browser features instead of react*/
         const vOption = document.createElement("div");
-        vOption.addEventListener("click", () => { onClickHandler(video.ID) });
+        vOption.addEventListener("click", () => { onClickHandler(video) });
         vOption.setAttribute("class", "portrait search");
         const vImg = document.createElement("img");
         vImg.setAttribute("src", video.thumbnail);
@@ -92,7 +98,7 @@ export function populateResults(videos: Video[]) {
         vTitle.innerHTML = video.title;
         const vDuration = document.createElement("span");
         vDuration.setAttribute("class", "duration");
-        vDuration.innerHTML = video.duration;
+        vDuration.innerHTML = formatDuration(video.duration.toString());
         const vDiv = document.createElement("div");
         vDiv.setAttribute("class", "ThumbOverlay");
         vDiv.append(vTitle);
@@ -105,10 +111,13 @@ export function populateResults(videos: Video[]) {
     })
 };
 
-export function onClickHandler(videoID: string) {
-    vHistory.push(videoID);
+let currentVideo: Video;
+export function onClickHandler(video: Video) {
+    currentVideo = video;
+
+    vHistory.push(video.ID);
     scrollPlayer(false);
-    playVideo(videoID);
+    playVideo(video.ID);
 }
 
 //function result(video: Video) {
@@ -136,10 +145,12 @@ let activeContainer: HTMLElement;
 let upperContainer: HTMLElement;
 let lowerContainer: HTMLElement;
 
+let videoStart: Date | null;
 export function playVideo(videoID: string) {
     overlayHide();
     showVideoPlayer();
 
+    videoStart = new Date();
     activeContainer.children[0].setAttribute("src", `https://www.youtube.com/embed/${videoID}?autoplay=1`)
     upperContainer.children[0].setAttribute("src", `about:blank`)
     lowerContainer.children[0].setAttribute("src", `about:blank`)
@@ -178,6 +189,11 @@ function scrollPlayer(down: boolean) {
         lowerContainer = upperContainer;
         upperContainer = activeContainer;
         activeContainer = tmp;
+    }
+
+    if (videoStart != null) {
+        pal.LogWatchTime(videoStart, currentVideo.duration);
+        videoStart = null;
     }
 }
 
