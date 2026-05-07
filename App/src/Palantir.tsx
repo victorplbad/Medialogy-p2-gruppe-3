@@ -71,7 +71,7 @@ function exportData() {
             object[date].sessionTimes.push(parseInt(localStorage.getItem(key) || ""));
         } else if (regex[0] == "sNum") {                            //Number of sessions this day
             object[date].totalSessions = parseInt(localStorage.getItem(key) || "");
-        }
+        }                                                           //Cant match videos to session unfortunately
     }
 
     const JSonString = JSON.stringify(object);
