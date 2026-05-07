@@ -1,7 +1,7 @@
 
 function LogWatchTime(startTime: Date, videoDuration: number) {
     const now = new Date();
-    const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+    const todayString = TodayString()
 
     const timeWatched: number = now.getTime() - startTime.getTime();
     const percentWatched = timeWatched / (videoDuration * 1000);
@@ -24,7 +24,7 @@ function LogSession() {
     if (sessionStorage.getItem("SessionStart") === null) return;
 
     const now = new Date();
-    const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+    const todayString = TodayString()
     const sessionStart = parseInt(sessionStorage.getItem("SessionStart") || "0") || 0;
 
     const sNum = parseInt(localStorage.getItem(todayString + "sNum") || "0") || 0;
@@ -35,11 +35,13 @@ function LogSession() {
     localStorage.setItem(todayString + "s" + sNum, sessionTime.toString());
 }
 
-function DayTime() {
+function TodayString() {
     const now = new Date();
-    const todayString = now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+    return now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
+}
 
-    return parseInt(localStorage.getItem(todayString) || "0") / 1000;
+function DayTime() {
+    return parseInt(localStorage.getItem(TodayString()) || "0") / 1000;
 }
 
 interface dataExport {
@@ -93,11 +95,6 @@ type DaySummary = {
     sessionTimes: number[],
     videoWatchTimes: number[],
     videoProgress: number[],
-}
-
-function TodayString() {
-    const now = new Date();
-    return now.getUTCFullYear() + "/" + now.getUTCMonth() + "/" + now.getUTCDay();
 }
 
 const pal = {
