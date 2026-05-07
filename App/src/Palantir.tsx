@@ -84,7 +84,7 @@ interface dataExport {
 }
 
 type DaySummary = {
-    date?: string
+    date?: string,
     totalWatchTime?: number,
     totalVideos?: number,
     totalSessions?: number,
